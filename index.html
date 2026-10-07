@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>No Time to Doubt — Notas del Parche | Avances de Proyecto VR</title>
+  <title>No Time to Doubt — Avances del Proyecto Final VR</title>
   <meta name="description" content="Reporte de avance, código y diseño de nivel en Unity 6 URP para el videojuego de terror en Realidad Virtual No Time to Doubt.">
 
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -24,7 +24,7 @@
   <header class="top-nav">
     <div class="nav-container">
       <div class="brand-wrapper">
-        <span class="brand-badge">PATCH v0.8.4</span>
+        <span class="brand-badge">AVANCES</span>
         <a href="#hero" class="brand-title">NO TIME TO DOUBT</a>
       </div>
 
@@ -50,18 +50,17 @@
   </header>
 
   <main class="main-layout">
-    <!-- Encabezado / Hero del Parche -->
+    <!-- Encabezado / Hero -->
     <header id="hero" class="patch-header">
       <div class="patch-meta-top">
-        <span class="patch-version-tag">BUILD ALPHA 0.8.4</span>
         <span class="patch-tag tag-engine">Unity 6 (6000.0.40f1) URP</span>
         <span class="patch-tag tag-platform">Meta Quest / PCVR</span>
         <span class="patch-tag tag-academic">DDMI — UACJ (Semestre 10)</span>
       </div>
 
-      <h1 class="patch-title">Notas del Parche: Avances del Proyecto Final</h1>
+      <h1 class="patch-title">Avances del Proyecto Final</h1>
       <p class="patch-subtitle">
-        Notas de desarrollo y avances de <strong>No Time to Doubt</strong>, nuestro juego de terror y suspenso psicológico para Realidad Virtual en Unity 6. Aquí explicamos cómo organizamos el código, cómo armamos el escenario del bosque y la cabaña, y los ajustes que hicimos para que corra fluido en visores VR.
+        Documentación técnica y avances de desarrollo de <strong>No Time to Doubt</strong>, nuestro videojuego de terror y suspenso psicológico para Realidad Virtual en Unity 6. Aquí explicamos la arquitectura del código, la creación del escenario del bosque y la cabaña, y los ajustes clave de optimización en visores VR.
       </p>
 
       <div class="patch-stats-grid">
@@ -89,7 +88,7 @@
     </header>
 
     <!-- Barra de Filtros de Contenido -->
-    <nav class="patch-filters" aria-label="Filtro de notas de parche">
+    <nav class="patch-filters" aria-label="Filtro de módulos y avances">
       <span class="filter-label">Filtrar por:</span>
       <button class="filter-btn active" data-filter="all">Todos los Cambios</button>
       <button class="filter-btn" data-filter="systems">Código y Sistemas</button>
@@ -394,6 +393,119 @@
             </table>
           </div>
         </article>
+
+        <!-- Item 2.5: Control de Animaciones y Máquinas de Estado (Any State) -->
+        <article class="patch-card card-purple" data-category="systems">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-system">[ANIMACIONES &amp; MÁQUINAS DE ESTADO]</span>
+            <span class="card-timestamp">UNITY ANIMATOR // ANY STATE</span>
+          </div>
+          <h3 class="card-title">Control de animaciones: respuesta inmediata con Any State (Jugador y Minion)</h3>
+          <p class="card-desc">
+            Configuramos y desacoplamos el flujo de animaciones tanto para el jugador como para el enemigo tipo Minion en el Animator Controller de Unity. Mediante transiciones originadas desde <code>Any State</code> garantizamos que las acciones críticas no queden bloqueadas esperando a que termine un ciclo de reposo o caminado.
+          </p>
+
+          <div class="patch-challenge-box">
+            <div class="challenge-side">
+              <div class="challenge-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                Problema de latencia en animaciones
+              </div>
+              <div class="challenge-text">
+                Si las animaciones de ataque o de muerte solo transicionan desde el estado <code>Idle</code> o <code>Caminar</code>, presionar el gatillo o recibir daño fatal generaba un retraso notable mientras se completaba la animación en curso, arruinando la inmediatez en VR.
+              </div>
+            </div>
+            <div class="solution-side">
+              <div class="solution-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                Implementación con Any State
+              </div>
+              <div class="solution-text">
+                En el jugador conectamos <code>Any State &rarr; Animaciones_Pegar</code> para que en cualquier estado se ejecute el golpe al instante al pulsar el clic o gatillo VR. En el Minion, conectamos <code>Any State &rarr; Muerte</code> para que su eliminación se dispare en cualquier milisegundo sin depender de su estado de patrulla o ataque.
+              </div>
+            </div>
+          </div>
+
+          <div class="evidence-grid">
+            <div class="evidence-card">
+              <img src="assets/leo_loz_animator_jugador.png" alt="Máquina de estados del Animator del Jugador" class="evidence-img">
+              <div class="evidence-caption">
+                <span>Animator del Jugador: Transición Any State &rarr; Animaciones_Pegar, Idle y Caminar</span>
+                <span class="evidence-zoom-hint">Ampliar</span>
+              </div>
+            </div>
+            <div class="evidence-card">
+              <img src="assets/leo_loz_animator_minion.png" alt="Máquina de estados del Enemigo Minion" class="evidence-img">
+              <div class="evidence-caption">
+                <span>Animator Enemigo Minion: Any State &rarr; Muerte y ciclo de Idle / Atacando</span>
+                <span class="evidence-zoom-hint">Ampliar</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Item 2.6: Controlador de Sonidos del Jugador e Interfaz In-Game -->
+        <article class="patch-card card-teal" data-category="systems">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-system">[AUDIO &amp; FEEDBACK IN-GAME]</span>
+            <span class="card-timestamp">CONTROLADOR SONIDOS // HUD CANVAS</span>
+          </div>
+          <h3 class="card-title">Controlador de Sonidos modular y Canvas HUD in-game</h3>
+          <p class="card-desc">
+            Implementamos el script centralizado <code>ControladorSonidosJugador</code> que responde a los eventos y acciones del personaje, asignando clips de audio dedicados para cada interacción física o de combate. Asimismo, estructuramos el Canvas in-game con retroalimentación visual no invasiva de munición, mira y notificaciones del sistema.
+          </p>
+
+          <div class="specs-table-wrapper">
+            <table class="specs-table">
+              <thead>
+                <tr>
+                  <th>Módulo / Sonido</th>
+                  <th>Configuración &amp; Clip</th>
+                  <th>Propósito de Inmersión</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Sonido Ataque / Disparo</strong></td>
+                  <td><span class="badge-metric metric-after">Golpe // Revolver shoot</span></td>
+                  <td>Feedback auditivo inmediato al accionar el gatillo en VR o ratón en PC.</td>
+                </tr>
+                <tr>
+                  <td><strong>Sonido Paso</strong></td>
+                  <td><span class="badge-metric metric-after">Footsteps hollow wood (Intervalo: 1)</span></td>
+                  <td>Pasos espaciados sincrónicamente con el evento de locomoción del Rigidbody.</td>
+                </tr>
+                <tr>
+                  <td><strong>Sonido Respiración</strong></td>
+                  <td><span class="badge-metric metric-after">RespiraAgitado</span></td>
+                  <td>Intensifica la tensión y ambientación de terror psicológico según el esfuerzo o peligro.</td>
+                </tr>
+                <tr>
+                  <td><strong>Sonido Recoger</strong></td>
+                  <td><span class="badge-metric metric-after">Item Pick up (Counter Strike)</span></td>
+                  <td>Confirmación sonora al agarrar llaves, munición o el arma del escenario.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="evidence-grid">
+            <div class="evidence-card">
+              <img src="assets/leo_loz_controlador_sonidos.png" alt="Inspector de Unity con Controlador Sonidos Jugador" class="evidence-img">
+              <div class="evidence-caption">
+                <span>Inspector: ControladorSonidosJugador.cs con clips de ataque, pasos, munición y respiración</span>
+                <span class="evidence-zoom-hint">Ampliar</span>
+              </div>
+            </div>
+            <div class="evidence-card">
+              <img src="assets/leo_loz_canvas_ingame.png" alt="Canvas in-game con arma empuñada y contador de munición" class="evidence-img">
+              <div class="evidence-caption">
+                <span>Screenshot in-game: Canvas de munición (6/6), retícula de apuntado y perspectiva del arma</span>
+                <span class="evidence-zoom-hint">Ampliar</span>
+              </div>
+            </div>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -666,6 +778,17 @@
             <div>
               <strong>Iluminación del Pasillo</strong>
               <div class="evidence-subtext">Scene View — Gizmos de luz y colocación del enemigo</div>
+            </div>
+            <span class="evidence-zoom-hint">Ampliar</span>
+          </div>
+        </div>
+
+        <div class="evidence-card" data-category="systems art">
+          <img src="assets/leo_loz_canvas_ingame.png" alt="HUD in-game con perspectiva del arma y munición" class="evidence-img evidence-img-large">
+          <div class="evidence-caption">
+            <div>
+              <strong>HUD &amp; Perspectiva In-Game</strong>
+              <div class="evidence-subtext">Canvas de munición (6/6), retícula y empuñadura del arma</div>
             </div>
             <span class="evidence-zoom-hint">Ampliar</span>
           </div>
