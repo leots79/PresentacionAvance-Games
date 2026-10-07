@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "headers": [
+    {
+      "source": "/DocumentosBase/(.*)",
+      "headers": [
+        { "key": "Accept-Ranges", "value": "bytes" }
+      ]
+    }
+  ]
+}

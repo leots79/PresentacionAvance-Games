@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>No Time to Doubt — Notas del Parche | Avances de Proyecto VR</title>
+  <meta name="description" content="Reporte de avance, código y diseño de nivel en Unity 6 URP para el videojuego de terror en Realidad Virtual No Time to Doubt.">
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <!-- Tipografías de Google Fonts: Plus Jakarta Sans y JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Barra de progreso de lectura (Color sólido) -->
+  <div id="progress-bar"></div>
+
+  <!-- Barra de Navegación Fija Superior -->
+  <header class="top-nav">
+    <div class="nav-container">
+      <div class="brand-wrapper">
+        <span class="brand-badge">PATCH v0.8.4</span>
+        <a href="#hero" class="brand-title">NO TIME TO DOUBT</a>
+      </div>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#resumen" class="nav-link">01. Resumen</a></li>
+          <li><a href="#leo-lozano" class="nav-link">02. Código &amp; Sistemas</a></li>
+          <li><a href="#leo-garcia" class="nav-link">03. Arte &amp; VR</a></li>
+          <li><a href="#gameplay-video-section" class="nav-link">04. Video</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="#gameplay-video-section" class="btn-nav-primary">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+          Ver Gameplay
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-layout">
+    <!-- Encabezado / Hero del Parche -->
+    <header id="hero" class="patch-header">
+      <div class="patch-meta-top">
+        <span class="patch-version-tag">BUILD ALPHA 0.8.4</span>
+        <span class="patch-tag tag-engine">Unity 6 (6000.0.40f1) URP</span>
+        <span class="patch-tag tag-platform">Meta Quest / PCVR</span>
+        <span class="patch-tag tag-academic">DDMI — UACJ (Semestre 10)</span>
+      </div>
+
+      <h1 class="patch-title">Notas del Parche: Avances del Proyecto Final</h1>
+      <p class="patch-subtitle">
+        Notas de desarrollo y avances de <strong>No Time to Doubt</strong>, nuestro juego de terror y suspenso psicológico para Realidad Virtual en Unity 6. Aquí explicamos cómo organizamos el código, cómo armamos el escenario del bosque y la cabaña, y los ajustes que hicimos para que corra fluido en visores VR.
+      </p>
+
+      <div class="patch-stats-grid">
+        <div class="stat-item">
+          <div class="stat-label">Programación y Sistemas</div>
+          <div class="stat-value">Leonardo Lozano</div>
+          <div class="stat-detail">Código en C#, eventos con Action y controles para VR y PC</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Nivel, Arte y Optimización</div>
+          <div class="stat-value">Leonardo García</div>
+          <div class="stat-detail">Diseño del terreno, luz con Light Probes y ajustes para VR</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Meta de Rendimiento VR</div>
+          <div class="stat-value">72 — 90 FPS</div>
+          <div class="stat-detail">Terreno ligero (257x257) y niebla optimizada</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Materia y Carrera</div>
+          <div class="stat-value">Games Engines 2</div>
+          <div class="stat-detail">Diseño Digital de Medios Interactivos (UACJ)</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Barra de Filtros de Contenido -->
+    <nav class="patch-filters" aria-label="Filtro de notas de parche">
+      <span class="filter-label">Filtrar por:</span>
+      <button class="filter-btn active" data-filter="all">Todos los Cambios</button>
+      <button class="filter-btn" data-filter="systems">Código y Sistemas</button>
+      <button class="filter-btn" data-filter="art">Arte y Entorno VR</button>
+      <button class="filter-btn" data-filter="optimization">Optimización</button>
+      <button class="filter-btn" data-filter="bugfix">Problemas Resueltos</button>
+    </nav>
+
+    <!-- 01. RESUMEN DEL PROYECTO -->
+    <section id="resumen" class="patch-section">
+      <div class="section-badge-row">
+        <span class="section-author-badge author-collab">Visión General</span>
+        <span class="section-discipline-tag">[REPASO DEL AVANCE]</span>
+      </div>
+      <h2 class="section-title">01. ¿De qué trata el proyecto y qué logramos?</h2>
+      <p class="section-lead">
+        En este avance nos enfocamos en tener la primera zona jugable en Unity 6 (URP): un bosque oscuro con una cabaña abandonada, asegurándonos de que el juego no dé tirones en las gafas de realidad virtual y que el código quede bien ordenado para seguir agregando mecánicas sin romper nada.
+      </p>
+
+      <div class="patch-items-stack">
+        <article class="patch-card card-purple" data-category="systems optimization">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-system">[CONCEPTO DEL JUEGO]</span>
+            <span class="card-timestamp">VR TERROR // AMBIENTACIÓN</span>
+          </div>
+          <h3 class="card-title">Concepto: No Time to Doubt</h3>
+          <p class="card-desc">
+            El jugador aparece en medio de un bosque denso y oscuro delimitado por una niebla espesa, con el objetivo de explorar una cabaña abandonada. Al ser un juego en primera persona para Realidad Virtual, cuidamos dos prioridades: que la atmósfera dé una sensación constante de suspenso, y que los gráficos y el movimiento se sientan cómodos para evitar mareos (cinetosis).
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- 02. PROGRAMACIÓN Y SISTEMAS DE JUEGO (LEONARDO LOZANO) -->
+    <section id="leo-lozano" class="patch-section">
+      <div class="section-badge-row">
+        <span class="section-author-badge author-leo-loz">Leonardo Lozano</span>
+        <span class="section-discipline-tag">[CÓDIGO // SISTEMAS EN C#]</span>
+      </div>
+      <h2 class="section-title">02. Programación, Arquitectura de Código y Controles VR/PC</h2>
+      <p class="section-lead">
+        Separamos los scripts para que no dependieran unos de otros, cambiamos la forma en que funcionan los objetos para que la linterna no diera problemas al apuntar, y migramos los controles al nuevo Input System para poder probar tanto en visores VR como con teclado y mouse en PC.
+      </p>
+
+      <div class="patch-items-stack">
+        <!-- Item 2.1: Patrón Observador -->
+        <article class="patch-card card-purple" data-category="systems">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-system">[ESTRUCTURA DE CÓDIGO]</span>
+            <span class="card-timestamp">C# EVENTS &amp; ACTIONS</span>
+          </div>
+          <h3 class="card-title">Separar el código con eventos (Patrón Observador)</h3>
+          <p class="card-desc">
+            En lugar de que un script tenga que buscar y depender directamente de los demás, usamos eventos con <code>Action</code> de C#. Cuando el jugador ataca, el script simplemente avisa que atacó; el Animator o el sonido escuchan esa señal y reaccionan por su cuenta, sin que los códigos estén pegados entre sí.
+          </p>
+
+          <div class="patch-challenge-box">
+            <div class="challenge-side">
+              <div class="challenge-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                Problema que teníamos
+              </div>
+              <div class="challenge-text">
+                Los scripts <code>JugadorAtaque</code>, <code>SaludEnemigo</code> y las animaciones estaban muy acoplados. Si cambiábamos algo en un script o faltaba una referencia, salía error y se trababa todo.
+              </div>
+            </div>
+            <div class="solution-side">
+              <div class="solution-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                Cómo lo solucionamos
+              </div>
+              <div class="solution-text">
+                Creamos el evento <code>OnAtaqueSolicitado</code>. El script de animaciones lo escucha y reproduce la animación cuando toca, sin que el código de ataque tenga que mandarlo a llamar directamente.
+              </div>
+            </div>
+          </div>
+
+          <div class="code-block-wrapper">
+            <div class="code-header">
+              <span class="code-filename">JugadorAtaque.cs (Fragmento Real del Proyecto)</span>
+              <button class="btn-copy-code" type="button">Copiar código</button>
+            </div>
+            <pre class="code-content"><span class="com">// Definimos el evento con Action de C# para avisar sin acoplar scripts</span>
+<span class="kw">public event</span> <span class="typ">Action</span> OnAtaqueSolicitado;
+
+<span class="kw">void</span> <span class="fnc">Start</span>()
+{
+    controlArma = <span class="fnc">GetComponent</span>&lt;<span class="typ">AgarrarArma</span>&gt;();
+}
+
+<span class="kw">void</span> <span class="fnc">Update</span>()
+{
+    <span class="kw">if</span> (controlArma != <span class="kw">null</span> &amp;&amp; controlArma.tieneArma)
+    {
+        <span class="kw">return</span>;
+    }
+
+    <span class="kw">if</span> (<span class="typ">Time</span>.time &gt;= tiempoSiguienteAtaque)
+    {
+        <span class="kw">if</span> (<span class="typ">Input</span>.<span class="fnc">GetButtonDown</span>(<span class="str">"Fire1"</span>))
+        {
+            <span class="fnc">Golpear</span>();
+            tiempoSiguienteAtaque = <span class="typ">Time</span>.time + tiempoEntreAtaques;
+        }
+    }
+}</pre>
+          </div>
+
+          <div class="evidence-grid">
+            <div class="evidence-card">
+              <img src="assets/leo_loz_events_code.png" alt="Código de eventos en C#" class="evidence-img">
+              <div class="evidence-caption">
+                <span>Captura de código: Eventos y Patrón Observador</span>
+                <span class="evidence-zoom-hint">Ampliar</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Item 2.2: Modularidad por Capacidades (DatosArma) -->
+        <article class="patch-card card-teal" data-category="systems bugfix">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-input">[OBJETOS MODULARES]</span>
+            <span class="card-timestamp">DATOSARMA.CS // BOOLEANOS</span>
+          </div>
+          <h3 class="card-title">Objetos modulares con booleanos: solución al problema de la linterna</h3>
+          <p class="card-desc">
+            Tuvimos un problema con la linterna: como el código anterior la condicionaba a un tipo de arma específico, no nos permitía levantar la mano para alumbrar hacia el frente. La solución fue cambiar a un sistema donde cada objeto define qué puede hacer y no qué tipo de objeto es.
+          </p>
+
+          <div class="patch-challenge-box">
+            <div class="challenge-side">
+              <div class="challenge-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                Problema que teníamos
+              </div>
+              <div class="challenge-text">
+                El código dependía de <code>TipoArma</code>. Como la linterna es una herramienta y no un arma de fuego ni cuerpo a cuerpo, el personaje no levantaba la mano para apuntar la luz al caminar por el bosque.
+              </div>
+            </div>
+            <div class="solution-side">
+              <div class="solution-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                Cómo lo solucionamos
+              </div>
+              <div class="solution-text">
+                En <code>DatosArma</code> pusimos casillas booleanas: <code>puedeApuntar</code>, <code>puedeDisparar</code>, <code>puedeAtacarMelee</code> y componente de luz. Así, la linterna solo activa <code>puedeApuntar = true</code> y funciona de inmediato, sin tener que hacer scripts separados para cada cosa.
+              </div>
+            </div>
+          </div>
+
+          <div class="code-block-wrapper">
+            <div class="code-header">
+              <span class="code-filename">DatosArma.cs (Sistema Universal con Bools)</span>
+              <button class="btn-copy-code" type="button">Copiar código</button>
+            </div>
+            <pre class="code-content"><span class="kw">using</span> <span class="typ">UnityEngine</span>;
+
+<span class="kw">public enum</span> <span class="typ">TipoArma</span> { DeFuego, CuerpoACuerpo, Herramienta }
+
+<span class="kw">public class</span> <span class="typ">DatosArma</span> : <span class="typ">MonoBehaviour</span>
+{
+    <span class="kw">public</span> <span class="typ">TipoArma</span> tipoArma;
+
+    [<span class="typ">Header</span>(<span class="str">"Capacidades del Objeto"</span>)]
+    <span class="kw">public bool</span> puedeApuntar = <span class="kw">true</span>;       <span class="com">// Si es true, la mano se levanta</span>
+    <span class="kw">public bool</span> puedeDisparar = <span class="kw">false</span>;     <span class="com">// Si es true, usa munición</span>
+    <span class="kw">public bool</span> puedeAtacarMelee = <span class="kw">false</span>;  <span class="com">// Si es true, da golpe cuerpo a cuerpo</span>
+
+    [<span class="typ">Header</span>(<span class="str">"Configuración de Linterna (Opcional)"</span>)]
+    <span class="kw">public</span> <span class="typ">Light</span> componenteLuz;
+
+    [<span class="typ">Header</span>(<span class="str">"Estadísticas (Si aplica)"</span>)]
+    <span class="kw">public int</span> dano = 10;
+    <span class="kw">public float</span> rangoAtaque = 2f;
+}</pre>
+          </div>
+
+          <div class="evidence-grid">
+            <div class="evidence-card">
+              <img src="assets/leo_loz_datosarma_code.png" alt="Script DatosArma con booleanos modulares" class="evidence-img">
+              <div class="evidence-caption">
+                <span>Estructura de DatosArma.cs</span>
+                <span class="evidence-zoom-hint">Ampliar</span>
+              </div>
+            </div>
+            <div class="evidence-card">
+              <img src="assets/leo_loz_apuntar_code.png" alt="Condición de apuntado con puedeApuntar" class="evidence-img">
+              <div class="evidence-caption">
+                <span>Condición de apuntado modular</span>
+                <span class="evidence-zoom-hint">Ampliar</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Item 2.3: Nuevo Input System Cross-Platform -->
+        <article class="patch-card card-purple" data-category="systems">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-system">[CONTROLES VR Y PC]</span>
+            <span class="card-timestamp">UNITY INPUT SYSTEM</span>
+          </div>
+          <h3 class="card-title">Nuevo Input System: jugar tanto en PC como en visores VR</h3>
+          <p class="card-desc">
+            Cambiamos la detección de clics tradicionales de <code>Input.GetMouse</code> al nuevo Input System de Unity con <code>InputActionReference</code>. Esto nos permite recibir las entradas del ratón de una computadora o el botón de agarre (Grip) de un mando de Realidad Virtual sin tener que cambiar el código según la plataforma.
+          </p>
+
+          <div class="patch-challenge-box">
+            <div class="challenge-side">
+              <div class="challenge-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                Detalle a tomar en cuenta
+              </div>
+              <div class="challenge-text">
+                En el nuevo sistema no basta con declarar las variables; si no se "enciende" la escucha de los botones en el momento correcto, el juego ignora las pulsaciones.
+              </div>
+            </div>
+            <div class="solution-side">
+              <div class="solution-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                Uso de OnEnable y OnDisable
+              </div>
+              <div class="solution-text">
+                Activamos la escucha de los botones dentro de <code>OnEnable()</code> y la apagamos en <code>OnDisable()</code>. Con esto y la variable <code>armaActual.puedeApuntar</code> logramos un control universal de mandos.
+              </div>
+            </div>
+          </div>
+
+          <div class="code-block-wrapper">
+            <div class="code-header">
+              <span class="code-filename">ControladorVR.cs (Input Actions y OnEnable)</span>
+              <button class="btn-copy-code" type="button">Copiar código</button>
+            </div>
+            <pre class="code-content"><span class="com">// Variables de entrada universales para mandos VR y PC</span>
+<span class="kw">public</span> <span class="typ">InputActionReference</span> accionDisparar;
+<span class="kw">public</span> <span class="typ">InputActionReference</span> accionApuntar;
+<span class="kw">public</span> <span class="typ">InputActionReference</span> accionRecargar;
+
+<span class="kw">private void</span> <span class="fnc">OnEnable</span>()
+{
+    accionDisparar?.action.<span class="fnc">Enable</span>();
+    accionApuntar?.action.<span class="fnc">Enable</span>();
+    accionRecargar?.action.<span class="fnc">Enable</span>();
+}
+
+<span class="kw">private void</span> <span class="fnc">OnDisable</span>()
+{
+    accionDisparar?.action.<span class="fnc">Disable</span>();
+    accionApuntar?.action.<span class="fnc">Disable</span>();
+    accionRecargar?.action.<span class="fnc">Disable</span>();
+}</pre>
+          </div>
+
+          <div class="evidence-grid">
+            <div class="evidence-card">
+              <img src="assets/leo_loz_inputactions.png" alt="Variables InputActionReference en Unity" class="evidence-img">
+              <div class="evidence-caption">
+                <span>Declaración de InputActionReference</span>
+                <span class="evidence-zoom-hint">Ampliar</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Item 2.4: Físicas de Locomoción VR -->
+        <article class="patch-card card-teal" data-category="systems optimization">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-optimization">[FÍSICAS Y MOVIMIENTO]</span>
+            <span class="card-timestamp">RIGIDBODY // DIRECCIÓN RELATIVA</span>
+          </div>
+          <h3 class="card-title">Caminar según la cabeza y evitar caídas con Rigidbody</h3>
+          <p class="card-desc">
+            Para mover al personaje en VR usamos un componente <code>Rigidbody</code> con restricciones de rotación (<code>FreezeRotation</code>), evitando que la cápsula del jugador tropiece o se incline al caminar por desniveles del terreno, lo cual provocaría mareos inmediatos en las gafas.
+          </p>
+
+          <div class="specs-table-wrapper">
+            <table class="specs-table">
+              <thead>
+                <tr>
+                  <th>Componente</th>
+                  <th>Ajuste realizado</th>
+                  <th>Para qué sirve en VR</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Restricciones de Rigidbody</strong></td>
+                  <td><span class="badge-metric metric-after">FreezeRotation en X, Y, Z</span></td>
+                  <td>Mantiene al jugador derecho en todo momento, evitando que el cuerpo se ladee o caiga al chocar con piedras o ramas.</td>
+                </tr>
+                <tr>
+                  <td><strong>Dirección de Movimiento</strong></td>
+                  <td><span class="badge-metric metric-after">Vector normalizado sin eje Y</span></td>
+                  <td>Hace que el personaje camine hacia donde está apuntando la cabeza (cámara), pero sin levantarse del suelo si voltea a ver hacia arriba.</td>
+                </tr>
+                <tr>
+                  <td><strong>Eventos de Locomoción</strong></td>
+                  <td><span class="badge-metric metric-after">SiVelocidadCambiada</span></td>
+                  <td>Avisa a otros sistemas cuando el jugador se está moviendo, para activar el sonido de los pasos sin ensuciar el código de físicas.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 03. ARTE TÉCNICO, ENTORNO Y OPTIMIZACIÓN VR (LEONARDO GARCÍA) -->
+    <section id="leo-garcia" class="patch-section">
+      <div class="section-badge-row">
+        <span class="section-author-badge author-leo-g">Leonardo García</span>
+        <span class="section-discipline-tag">[ESCENARIO // ILUMINACIÓN &amp; VR]</span>
+      </div>
+      <h2 class="section-title">03. Diseño de Nivel, Arte, Iluminación y Ajustes de VR</h2>
+      <p class="section-lead">
+        Esculpimos el terreno desde cero con herramientas de Terrain, horneamos las luces con Light Probes para no sobrecargar el visor, creamos una niebla de bajo costo con partículas y calibramos la distancia de dibujado para mantener los cuadros por segundo estables.
+      </p>
+
+      <div class="patch-items-stack">
+        <!-- Item 3.1: Escultura y Terreno -->
+        <article class="patch-card card-amber" data-category="art optimization">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-art">[DISEÑO DEL TERRENO]</span>
+            <span class="card-timestamp">UNITY 6 TERRAIN TOOLS</span>
+          </div>
+          <h3 class="card-title">Construcción y escultura del terreno</h3>
+          <p class="card-desc">
+            Diseñamos el terreno partiendo de cero con las herramientas de Terrain en Unity 6, reemplazando cuadrículas planas y genéricas por un mapa a la medida. Esculpimos colinas, zanjas y claros boscosos, y pintamos capas de texturas de pasto, tierra y caminos de terracería que guían naturalmente hacia la cabaña.
+          </p>
+
+          <div class="evidence-grid">
+            <div class="evidence-card">
+              <img src="assets/leo_g_terrain_inspector.png" alt="Inspector de Terrain en Unity 6" class="evidence-img">
+              <div class="evidence-caption">
+                <span>Inspector del terreno y escena en Unity 6</span>
+                <span class="evidence-zoom-hint">Ampliar</span>
+              </div>
+            </div>
+            <div class="evidence-card">
+              <img src="assets/leo_g_forest_postproc.png" alt="Vista del bosque con vegetación" class="evidence-img">
+              <div class="evidence-caption">
+                <span>Composición de vegetación y niebla</span>
+                <span class="evidence-zoom-hint">Ampliar</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Item 3.2: Optimización Crítica para VR -->
+        <article class="patch-card card-green" data-category="optimization">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-optimization">[RENDIMIENTO EN VR]</span>
+            <span class="card-timestamp">AJUSTES DEL TERRENO</span>
+          </div>
+          <h3 class="card-title">Optimización del terreno para mantener los 72-90 FPS</h3>
+          <p class="card-desc">
+            En Realidad Virtual es fundamental mantener una tasa alta y constante de cuadros por segundo, ya que cualquier tirón hace que la persona se sienta mareada. Para lograrlo, ajustamos los parámetros del terreno, texturas y vegetación para que consumieran lo mínimo sin perder la ambientación.
+          </p>
+
+          <div class="specs-table-wrapper">
+            <table class="specs-table">
+              <thead>
+                <tr>
+                  <th>Parámetro</th>
+                  <th>Valor por defecto</th>
+                  <th>Ajuste aplicado para VR</th>
+                  <th>Beneficio en el juego</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Resolución del Heightmap</strong></td>
+                  <td><span class="badge-metric metric-before">1025 x 1025</span></td>
+                  <td><span class="badge-metric metric-after">257 x 257</span></td>
+                  <td>Reduce drásticamente el peso de la malla del suelo y acelera el cálculo de colisiones.</td>
+                </tr>
+                <tr>
+                  <td><strong>Resolución de Texturas Base</strong></td>
+                  <td><span class="badge-metric metric-before">2048 x 2048</span></td>
+                  <td><span class="badge-metric metric-after">512 x 512</span></td>
+                  <td>Ahorra mucha memoria de video (VRAM) en las gafas de realidad virtual.</td>
+                </tr>
+                <tr>
+                  <td><strong>Distancia de Árboles y Detalle</strong></td>
+                  <td><span class="badge-metric metric-before">100m a 250m</span></td>
+                  <td><span class="badge-metric metric-after">Detalle: 20m | Árboles: 2m</span></td>
+                  <td>Los árboles lejanos no se dibujan fuera de lo que tapa la niebla, ahorrando procesamiento.</td>
+                </tr>
+                <tr>
+                  <td><strong>Medidas del Mapa</strong></td>
+                  <td><span class="badge-metric metric-before">1000m x 1000m</span></td>
+                  <td><span class="badge-metric metric-after">350m x 350m</span></td>
+                  <td>Espacio medido y enfocado a la exploración de la cabaña y sus alrededores.</td>
+                </tr>
+                <tr>
+                  <td><strong>Conexión Automática de Terrenos</strong></td>
+                  <td><span class="badge-metric metric-before">Activado</span></td>
+                  <td><span class="badge-metric metric-after">Desactivado</span></td>
+                  <td>Evita que Unity gaste recursos revisando si hay otros terrenos alrededor.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <!-- Item 3.3: Iluminación y Light Probes -->
+        <article class="patch-card card-amber" data-category="art optimization">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-art">[ILUMINACIÓN HORNEADA]</span>
+            <span class="card-timestamp">LIGHT PROBE GROUPS</span>
+          </div>
+          <h3 class="card-title">Iluminación con Light Probes (sin gastar en luces en tiempo real)</h3>
+          <p class="card-desc">
+            Poner muchas luces en tiempo real en VR hace que el juego vaya lento. Para evitarlo, horneamos las luces fijas (Light Bake) y colocamos una red de <strong>Light Probe Groups</strong> adentro y afuera de la cabaña. Con esto, cuando el jugador o la linterna se mueven por las habitaciones, reciben la luz y las sombras del entorno sin castigar los cuadros por segundo.
+          </p>
+
+          <div class="evidence-grid">
+            <div class="evidence-card">
+              <img src="assets/leo_g_lightprobes.png" alt="Red de Light Probes en la cabaña" class="evidence-img">
+              <div class="evidence-caption">
+                <span>Red de Light Probes en la cabaña</span>
+                <span class="evidence-zoom-hint">Ampliar</span>
+              </div>
+            </div>
+            <div class="evidence-card">
+              <img src="assets/leo_g_house_fog.png" alt="Cabaña y niebla en el bosque" class="evidence-img">
+              <div class="evidence-caption">
+                <span>Cabaña en el claro con niebla perimetral</span>
+                <span class="evidence-zoom-hint">Ampliar</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Item 3.4: Niebla Volumétrica y URP Lit -->
+        <article class="patch-card card-green" data-category="art bugfix">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-optimization">[ATMÓSFERA Y ARREGLOS]</span>
+            <span class="card-timestamp">PARTICLE SYSTEM // URP LIT</span>
+          </div>
+          <h3 class="card-title">Niebla con sistema de partículas y arreglo de materiales rosados</h3>
+          <p class="card-desc">
+            La niebla volumétrica común consume demasiado en visores VR. Para lograr una atmósfera lúgubre de bajo costo, usamos un <strong>Particle System</strong> en forma de caja grande alrededor del bosque: simula una niebla estancada y espesa que delimita el nivel y casi no consume recursos.
+          </p>
+
+          <div class="patch-challenge-box">
+            <div class="challenge-side">
+              <div class="challenge-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                Problema de materiales rosados
+              </div>
+              <div class="challenge-text">
+                Varios modelos 3D que trajimos (como el buzón de la entrada) se veían de color rosa/magenta porque venían preparados para el motor anterior de Unity (Built-in) y no eran compatibles con URP.
+              </div>
+            </div>
+            <div class="solution-side">
+              <div class="solution-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                Conversión a URP Lit
+              </div>
+              <div class="solution-text">
+                Convertimos los materiales al shader <code>Universal Render Pipeline/Lit</code>, recuperando las texturas correctas de madera y metal para que se vean bien integradas con la escena.
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Item 3.5: Post-Procesado y Color Grading -->
+        <article class="patch-card card-amber" data-category="art">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-art">[COLOR Y NARRATIVA]</span>
+            <span class="card-timestamp">GLOBAL VOLUME // LUT 16x16</span>
+          </div>
+          <h3 class="card-title">Post-procesado (LUT) y ritmo del nivel</h3>
+          <p class="card-desc">
+            Configuramos un Global Volume con un filtro LUT (Look-Up Table) de 16x16 para teñir la imagen de tonos fríos y oscuros acordes a un thriller psicológico. También agregamos un toque suave de viñeta y aberración cromática en la cámara del jugador, cuidando que la escala se vea natural y no provoque sensación de mareo al usar el visor.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- 04. DEMOSTRACIÓN EN VIDEO (GAMEPLAY EN PANTALLA COMPLETA) -->
+    <section id="gameplay-video-section" class="video-section">
+      <div class="section-badge-row">
+        <span class="section-author-badge author-collab">Demostración en Video</span>
+        <span class="section-discipline-tag">[GAMEPLAY // BOSQUE &amp; CABAÑA]</span>
+      </div>
+      <h2 class="section-title">04. Video del Nivel Jugable (Gameplay)</h2>
+      <p class="section-lead">
+        Aquí se puede ver el recorrido por el bosque con la linterna encendida, la niebla delimitando el camino y la llegada a la cabaña abandonada.
+      </p>
+
+      <div class="video-container-wrapper">
+        <video id="gameplay-video" class="video-player" controls preload="metadata" poster="assets/poster.jpg">
+          <source src="DocumentosBase/GamplayBosque.mp4" type="video/mp4">
+          Tu navegador no soporta la reproducción de video HTML5. Puedes visualizar el video en <code>DocumentosBase/GamplayBosque.mp4</code>.
+        </video>
+      </div>
+
+      <div class="video-controls-bar">
+        <div class="video-actions-left">
+          <button id="btn-fullscreen" class="btn-video" type="button" title="Ver en pantalla completa (Tecla F)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+            </svg>
+            Pantalla Completa
+          </button>
+
+          <button id="btn-toggle-play" class="btn-video-alt" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            Reproducir
+          </button>
+
+          <button class="btn-video-alt btn-speed" data-speed="1.0" type="button">1.0x</button>
+          <button class="btn-video-alt btn-speed" data-speed="1.25" type="button">1.25x</button>
+          <button class="btn-video-alt btn-speed" data-speed="1.5" type="button">1.5x</button>
+        </div>
+
+        <div class="video-status-pills">
+          <span class="video-status-tag">VIDEO: GamplayBosque.mp4</span>
+          <span class="video-status-tag">1080p // 60 FPS</span>
+          <span class="video-status-tag">AUDIO ESTÉREO</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer Académico e Institucional -->
+    <footer class="patch-footer">
+      <div class="footer-top">
+        <div class="footer-academic-info">
+          <h4>Universidad Autónoma de Ciudad Juárez (UACJ)</h4>
+          <p>Licenciatura en Diseño Digital de Medios Interactivos (DDMI) — Semestre 10</p>
+          <p>Materia: Games Engines 2 // Presentación de Avances del Proyecto Final</p>
+        </div>
+
+        <div class="footer-team-members">
+          <div class="member-box">
+            <h5>Leonardo Lozano</h5>
+            <p>Programación, Arquitectura C# y Controles VR/PC</p>
+          </div>
+          <div class="member-box">
+            <h5>Leonardo García</h5>
+            <p>Diseño de Nivel, Iluminación, Arte y Optimización VR</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 No Time to Doubt — Proyecto Académico VR</span>
+        <span>HTML, CSS y JS Vanilla listo para desplegar en Vercel</span>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Modal Lightbox para Inspección de Imágenes -->
+  <div id="lightbox-modal" class="lightbox-modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="lightbox-content-box">
+      <button id="lightbox-close" class="lightbox-close-btn" type="button" aria-label="Cerrar vista">&times;</button>
+      <img id="lightbox-img" src="" alt="Vista ampliada" class="lightbox-img">
+      <div id="lightbox-caption" class="lightbox-caption-text"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

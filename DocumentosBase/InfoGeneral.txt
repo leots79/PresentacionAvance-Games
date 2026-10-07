@@ -1,0 +1,32 @@
+El siguiente documento desglosa todo el trabajo de desarrollo, diseño y programación realizado para la creación del nivel con temática de terror en Realidad Virtual (VR) desarrollado en el motor Unity (Universal Render Pipeline). El trabajo se ha dividido estratégicamente en dos áreas fundamentales para asegurar el rendimiento técnico y la fidelidad visual del proyecto.
+
+Diseño de Nivel, Arte y Narrativa (Leonardo García)
+Toda la construcción del mundo, la atmósfera visual y la dirección del proyecto fueron ejecutadas mediante herramientas nativas de entorno y post-procesado.
+
+Construcción y Escultura del Entorno: Diseño del terreno partiendo de cero, reemplazando cuadrículas masivas por un mapa topográfico optimizado a la medida. Se utilizaron herramientas de Terrain para esculpir el relieve (colinas y zanjas) y pintar múltiples capas de texturas (pasto y caminos de tierra).
+
+Gestión de Modelado y Assets: Colocación de modelos 3D como la casa principal, integración de follaje (árboles) con herramientas de brocha, y conversión de materiales incompatibles (Built-in) a URP Lit para restaurar texturas como la del buzón.
+
+Iluminación y Atmósfera Tétrica: Creación de una barrera visual de niebla estancada utilizando un Particle System configurado en forma de caja, garantizando una estética lúgubre de bajo coste de procesamiento en VR.
+
+Post-Procesado y Color Grading: Implementación de un Global Volume para aplicar filtros LUT (Look-Up Tables) configurados en formato 16x16, ajustando la paleta de colores para lograr una inmersión cinematográfica oscura y de suspenso. Configuración de la cámara del jugador para renderizar correctamente estos efectos sin distorsionar la escala en los visores.
+
+Construcción del Guion: Desarrollo de la línea narrativa, estructuración del flujo del nivel y diseño conceptual (alineado a las mecánicas de thriller psicológico en VR) para guiar la experiencia del usuario dentro de la casa y el bosque.
+
+Programación y Sistemas de Juego (Leonardo Lozano)
+La lógica interna, las físicas y la interacción del jugador fueron estructuradas para funcionar de manera fluida y modular con los controles de Realidad Virtual.
+
+Implementación del Nuevo Input System: Sustitución de los ejes clásicos de Unity por el sistema moderno basado en eventos (InputActionReference), permitiendo capturar valores Vector2 directamente de los joysticks de los mandos VR.
+
+Físicas de Movimiento: Programación del desplazamiento del personaje utilizando el componente Rigidbody con restricciones de rotación (FreezeRotation) para evitar caídas o tropiezos indeseados por las físicas.
+
+Cálculo Vectorial Relativo: Desarrollo del algoritmo matemático que normaliza los vectores de dirección (anulando el eje Y) para que el movimiento responda correctamente hacia donde esté apuntando la cabeza (cámara) del jugador en el entorno 3D.
+
+Arquitectura de Eventos: Implementación del patrón de diseño Observer (mediante delegados y eventos como SiVelocidadCambiada) para comunicar módulos de código de forma limpia, separando el movimiento de otros posibles sistemas como la animación o el sonido de los pasos.
+
+Optimización Técnica Conjunta
+Dado que el proyecto está dirigido a plataformas de Realidad Virtual, ambos perfiles colaboraron indirectamente para asegurar una tasa de cuadros por segundo (FPS) estable:
+
+Reducción de Carga Gráfica: Ajuste crítico en los parámetros del terreno, limitando la resolución del Heightmap (257x257), reduciendo las texturas base a 512x512 y bajando la distancia de dibujado de árboles y detalles a solo el radio visible dentro de la niebla.
+
+Configuración del Render Pipeline: Manejo cuidadoso de los perfiles de URP para evitar el sobreprocesamiento, corrección de advertencias de rango dinámico (sRGB) y desactivación de la generación automática de terrenos colindantes.
