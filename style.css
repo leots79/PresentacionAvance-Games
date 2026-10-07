@@ -713,6 +713,10 @@ pre.code-content {
   background-color: #0f172a;
 }
 
+.evidence-img-large {
+  height: 225px;
+}
+
 .evidence-caption {
   padding: 0.8rem 1rem;
   font-size: 0.82rem;
@@ -721,6 +725,14 @@ pre.code-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.evidence-subtext {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-top: 3px;
+  line-height: 1.35;
 }
 
 .evidence-zoom-hint {

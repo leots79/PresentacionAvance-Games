@@ -100,7 +100,14 @@ document.addEventListener('DOMContentLoaded', () => {
   evidenceCards.forEach(card => {
     card.addEventListener('click', () => {
       const img = card.querySelector('img');
-      const captionText = card.querySelector('.evidence-caption span')?.innerText || '';
+      let captionText = '';
+      const strongTitle = card.querySelector('.evidence-caption strong');
+      const sub = card.querySelector('.evidence-subtext');
+      if (strongTitle) {
+        captionText = strongTitle.innerText + (sub ? ` — ${sub.innerText}` : '');
+      } else {
+        captionText = card.querySelector('.evidence-caption span')?.innerText || img.alt || '';
+      }
 
       if (img && lightboxModal && lightboxImg) {
         lightboxImg.src = img.src;
