@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>No Time to Doubt — Nueva Versión (Avances VR, Niveles y Combate)</title>
+  <meta name="description" content="Actualización técnica de la nueva versión de No Time to Doubt: migración OpenXR/XRI, Cinturón VR, corrección de colisiones, Menú VR, Combate e IA, Partículas y 3 Niveles con Jefe Final.">
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <!-- Tipografías de Google Fonts: Plus Jakarta Sans y JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Barra de progreso de lectura (Color sólido) -->
+  <div id="progress-bar"></div>
+
+  <!-- Barra de Navegación Fija Superior -->
+  <header class="top-nav">
+    <!-- Selector de Versión: Separación entre Lo Base y Lo Nuevo -->
+    <div class="version-strip">
+      <div class="version-strip-inner">
+        <span class="version-strip-label">HISTORIAL DE AVANCES // NO TIME TO DOUBT</span>
+        <div class="version-switcher" role="navigation" aria-label="Cambiar de versión de avances">
+          <a href="index.html" class="version-tab">Avance Base (Lo que ya está)</a>
+          <a href="nueva-version.html" class="version-tab active-new" aria-current="page">
+            Nueva Versión (VR &amp; 3 Niveles)
+            <span class="version-pill-new">NUEVO</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-container">
+      <div class="brand-wrapper">
+        <span class="brand-badge">NUEVA VERSIÓN</span>
+        <a href="#hero" class="brand-title">NO TIME TO DOUBT</a>
+      </div>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#vr-infraestructura" class="nav-link">01. VR</a></li>
+          <li><a href="#correcciones-build" class="nav-link">02. Físicas &amp; Build</a></li>
+          <li><a href="#menu-preferencias" class="nav-link">03. Menú</a></li>
+          <li><a href="#puertas-combate" class="nav-link">04. Combate</a></li>
+          <li><a href="#iluminacion-atmosfera" class="nav-link">05. Luz &amp; VFX</a></li>
+          <li><a href="#niveles-escenas" class="nav-link">06. Niveles</a></li>
+          <li><a href="#galeria-nueva" class="nav-link">07. Capturas</a></li>
+          <li><a href="#notas-tecnicas" class="nav-link">08. Pendientes</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="index.html" class="btn-nav-secondary">&larr; Avance Base</a>
+        <a href="#galeria-nueva" class="btn-nav-primary">Ver Capturas</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-layout">
+    <!-- Banner contextual para regresar al Avance Base separado -->
+    <div class="version-context-banner">
+      <span class="version-context-text">
+        Estás consultando los <strong>avances de la Nueva Versión (Actualización VR completa)</strong>, separados del documento base para mayor claridad.
+      </span>
+      <a href="index.html" class="btn-back-base">&larr; Ver Avance Base (Versión Anterior)</a>
+    </div>
+
+    <!-- Encabezado / Hero -->
+    <header id="hero" class="patch-header">
+      <div class="patch-meta-top">
+        <span class="patch-tag tag-new-version">NUEVA VERSIÓN // ACTUALIZACIÓN VR</span>
+        <span class="patch-tag tag-engine">OpenXR 1.14.3 // XRI 3.0.11</span>
+        <span class="patch-tag tag-platform">Windows (.exe) &amp; Meta Quest (SDK 29)</span>
+        <span class="patch-tag tag-academic">DDMI — UACJ (Semestre 10)</span>
+      </div>
+
+      <h1 class="patch-title">Avances de la Nueva Versión: Migración VR, Combate y 3 Niveles</h1>
+      <p class="patch-subtitle">
+        Documentación completa de la nueva iteración de <strong>No Time to Doubt</strong>: migración integral a OpenXR y XR Interaction Toolkit, inventario físico en cintura (<code>CinturonVR</code>), corrección de colisiones y físicas, menú VR persistente, puertas con llave, combate e IA sobre NavMesh, iluminación con secuencia de apagón, 66 sistemas de partículas y progresión conectada desde <code>Prologo.unity</code> hasta el Jefe Final en <code>Nivel 3.unity</code>.
+      </p>
+
+      <div class="patch-stats-grid">
+        <div class="stat-item">
+          <div class="stat-label">Infraestructura XR</div>
+          <div class="stat-value">OpenXR 1.14.3</div>
+          <div class="stat-detail">XRI 3.0.11, XR Management 4.7.0 y XR Device Simulator</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Escenas Principales</div>
+          <div class="stat-value">Menu + 3 Niveles</div>
+          <div class="stat-detail">Menu, Prologo, CasaNIvel2-Terreno y Nivel 3</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Partículas en Escenas</div>
+          <div class="stat-value">66 Sistemas Activos</div>
+          <div class="stat-detail">56 en Nivel 2, 6 en Nivel 3, 3 en Prólogo, 1 en Menú</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Plataformas de Build</div>
+          <div class="stat-value">PCVR &amp; Quest</div>
+          <div class="stat-detail">Windows (.exe) y Android/Quest (MinSDK 29)</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Barra de Filtros de Contenido -->
+    <nav class="patch-filters" aria-label="Filtro de avances de la nueva versión">
+      <span class="filter-label">Filtrar por:</span>
+      <button class="filter-btn active" data-filter="all">Todos los Avances</button>
+      <button class="filter-btn" data-filter="vr">Infraestructura VR</button>
+      <button class="filter-btn" data-filter="bugfix">Colisiones &amp; Build</button>
+      <button class="filter-btn" data-filter="systems">Menú &amp; Sistemas</button>
+      <button class="filter-btn" data-filter="combat">Puertas, Combate &amp; IA</button>
+      <button class="filter-btn" data-filter="art">Luz &amp; Partículas</button>
+      <button class="filter-btn" data-filter="levels">Niveles &amp; Pendientes</button>
+    </nav>
+
+    <!-- 01. MIGRACIÓN E INFRAESTRUCTURA DE REALIDAD VIRTUAL (VR) -->
+    <section id="vr-infraestructura" class="patch-section">
+      <div class="section-badge-row">
+        <span class="section-author-badge author-leo-loz">01. Infraestructura VR</span>
+        <span class="section-discipline-tag">[OPENXR // XRI 3.0.11 // CINTURÓN VR]</span>
+      </div>
+      <h2 class="section-title">01. Migración e Infraestructura de Realidad Virtual (VR)</h2>
+      <p class="section-lead">
+        Integración oficial de los paquetes XR de Unity, rig completo <code>Player-VR / XR Origin</code>, soporte híbrido para mandos Meta Quest, sistema físico de inventario en cintura y feedback visual/auditivo adaptado a Realidad Virtual.
+      </p>
+
+      <div class="patch-items-stack">
+        <!-- 1.1 Paquetes y Simulador -->
+        <article class="patch-card card-blue" data-category="vr systems">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-vr">[PAQUETES &amp; CONFIGURACIÓN XR]</span>
+            <span class="card-timestamp">MANIFEST.JSON // ASSETS/XR/</span>
+          </div>
+          <h3 class="card-title">Paquetes OpenXR, Gestión XR y Simulador de Dispositivo</h3>
+          <p class="card-desc">
+            Se integraron las dependencias XR en <code>manifest.json</code> junto con los perfiles de OpenXR y el simulador en <code>Assets/XR/</code> y <code>XRDeviceSimulatorSettings.asset</code> para probar mecánicas de manos y visor directamente en el editor.
+          </p>
+
+          <div class="specs-table-wrapper">
+            <table class="specs-table">
+              <thead>
+                <tr>
+                  <th>Paquete / Archivo</th>
+                  <th>Versión / Ubicación</th>
+                  <th>Función en el Proyecto</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>com.unity.xr.interaction.toolkit</code></td>
+                  <td><span class="badge-metric metric-after">3.0.11</span></td>
+                  <td>Interacción física VR, agarre de objetos (<code>XRGrabInteractable</code>), locomoción y UI con rayos.</td>
+                </tr>
+                <tr>
+                  <td><code>com.unity.xr.management</code></td>
+                  <td><span class="badge-metric metric-after">4.7.0</span></td>
+                  <td>Inicialización y gestión del ciclo de vida de los subsistemas XR en PC y Android.</td>
+                </tr>
+                <tr>
+                  <td><code>com.unity.xr.openxr</code></td>
+                  <td><span class="badge-metric metric-after">1.14.3</span></td>
+                  <td>Estándar multiplataforma OpenXR con perfiles configurados en <code>Assets/XR/</code>.</td>
+                </tr>
+                <tr>
+                  <td><code>XRDeviceSimulatorSettings.asset</code></td>
+                  <td><span class="badge-metric metric-after">Assets/XR/</span></td>
+                  <td>Simulador de HMD y controladores VR para pruebas ágiles con teclado y ratón en Unity.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <!-- 1.2 Locomoción y Manos VR -->
+        <article class="patch-card card-purple" data-category="vr systems">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-system">[LOCOMOCIÓN &amp; MANDOS META QUEST]</span>
+            <span class="card-timestamp">PLAYER-VR // XR ORIGIN</span>
+          </div>
+          <h3 class="card-title">Rig Player-VR, Locomoción, Animación de Manos y Soporte Híbrido</h3>
+          <p class="card-desc">
+            Las escenas jugables utilizan el rig <code>Player-VR / XR Origin</code> configurado con proveedores modulares de movimiento y giro, animación dinámica de manos y compatibilidad híbrida con mandos Meta Quest.
+          </p>
+          <ul class="feature-list">
+            <li><strong>Componentes de Locomoción e Interacción:</strong> <code>LocomotionMediator</code>, <code>XRBodyTransformer</code>, <code>ContinuousMoveProvider</code>, <code>ContinuousTurnProvider</code>, <code>SnapTurnProvider</code> y <code>XRDirectInteractor</code>.</li>
+            <li><strong>Animación de Manos:</strong> <code>AnimateHandOnInput</code> lee los ejes analógicos <code>Trigger</code> y <code>Grip</code> para cerrar los dedos en tiempo real.</li>
+            <li><strong>Soporte Híbrido Meta Quest:</strong> Lectura de sticks, gatillo, grip y botones <code>A/X/B/Y</code> integrada en <code>MovimientoJugador</code>, <code>JugadorDisparo</code>, <code>JugadorAtaque</code>, <code>JugadorAtaqueCuerpoACuerpo</code>, <code>AgarrarArma</code> y <code>SeleccionarPuerta</code>.</li>
+            <li><strong>Seguimiento y Apuntado VR:</strong> Scripts dedicados <code>GestorManosVR</code>, <code>SeguidorManoVR</code>, <code>SeguidorVisorVR</code>, <code>InvertirPitchVR</code> y el rayo láser de interacción <code>PunteroLaserVR</code>.</li>
+          </ul>
+        </article>
+
+        <!-- 1.3 Sistema de Cinturón -->
+        <article class="patch-card card-teal" data-category="vr systems">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-input">[INVENTARIO EN CINTURA]</span>
+            <span class="card-timestamp">CINTURONVR // GUARDARENCINTURON</span>
+          </div>
+          <h3 class="card-title">Sistema de Cinturón VR: Fundas con Zona Muerta de Cuello y Anclaje</h3>
+          <p class="card-desc">
+            Para evitar menús de inventario invasivos, las herramientas clave se portan físicamente en la cintura del jugador con seguimiento ergonómico y anclaje automático al soltarlas.
+          </p>
+
+          <div class="patch-challenge-box">
+            <div class="challenge-side">
+              <div class="challenge-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                CinturonVR (Seguimiento Ergonómico)
+              </div>
+              <div class="challenge-text">
+                Sigue al jugador a <code>alturaCintura</code> (<code>0.65f</code>) bajo la cámara y aplica una zona muerta de cuello (<code>anguloZonaMuerta = 55f</code>) o giro fijo con joystick, permitiendo mirar hacia abajo a <code>FundaLinterna</code> y <code>FundaRevolver</code> sin que giren con la cabeza.
+              </div>
+            </div>
+            <div class="solution-side">
+              <div class="solution-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                GuardarEnCinturon (Anclaje Físico)
+              </div>
+              <div class="solution-text">
+                Escucha los eventos <code>XRGrabInteractable.selectEntered</code> y <code>selectExited</code>; al soltar el arma o la linterna, activa <code>rb.isKinematic = true</code>, anula velocidades y la mantiene anclada a su <code>fundaAsignada</code>.
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 1.4 Feedback Visual, Audio y Pausa VR -->
+        <article class="patch-card card-amber" data-category="vr art">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-art">[FEEDBACK VISUAL, AUDIO Y PAUSA]</span>
+            <span class="card-timestamp">URP _EMISSIONCOLOR // TIMESCALE</span>
+          </div>
+          <h3 class="card-title">Resaltado Emisivo en URP, Pasos 3D y Menú de Pausa Espacial</h3>
+          <p class="card-desc">
+            Retroalimentación clara dentro del visor para guiar al jugador hacia objetos clave, sincronizar el audio con el suelo físico y pausar la partida en espacio 3D.
+          </p>
+          <ul class="feature-list feature-list-amber">
+            <li><strong><code>ResaltarObjeto</code>:</strong> Anima el canal <code>_EmissionColor</code> en URP usando materiales dedicados como <code>DoorsMap01-Resaltado.mat</code> y <code>T_Batton-Resaltado.mat</code> para hacer parpadear los objetos interactuables hasta que el jugador los toma.</li>
+            <li><strong><code>ControladorSonidosVR</code>:</strong> Reproduce pasos 3D sincronizados con la velocidad del <code>CharacterController</code> cuando está en el suelo (<code>isGrounded</code>) y respiración agitada en 2D.</li>
+            <li><strong><code>MenuPausaVR</code>:</strong> Despliega la interfaz a <code>1.5f</code> m frente a la cámara, habilita el rayo de UI, pausa el juego (<code>Time.timeScale = 0f</code>) y permite reanudar o reiniciar el nivel.</li>
+          </ul>
+
+          <div class="evidence-grid">
+            <div class="evidence-card">
+              <img src="assets/nueva_version/07_nivel1_oficina_resaltado.jpg" alt="Porra resaltada con T_Batton-Resaltado.mat en la oficina de Prologo.unity" class="evidence-img">
+              <div class="evidence-caption">
+                <div>
+                  <strong>ResaltarObjeto: Porra en Oficina</strong>
+                  <div class="evidence-subtext">Emisión URP (<code>T_Batton-Resaltado.mat</code>) junto a <code>telefono.fbx</code> y manos VR</div>
+                </div>
+                <span class="evidence-zoom-hint">Ampliar</span>
+              </div>
+            </div>
+            <div class="evidence-card">
+              <img src="assets/nueva_version/08_nivel1_puerta_resaltada.jpg" alt="Puerta interactiva resaltada con DoorsMap01-Resaltado.mat en Prologo.unity" class="evidence-img">
+              <div class="evidence-caption">
+                <div>
+                  <strong>ResaltarObjeto: Puerta Interactiva</strong>
+                  <div class="evidence-subtext">Material <code>DoorsMap01-Resaltado.mat</code> y mancha en suelo con <code>DecalRendererFeature</code></div>
+                </div>
+                <span class="evidence-zoom-hint">Ampliar</span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 02. CORRECCIÓN DE ERRORES (COLISIONES, FÍSICAS Y OPTIMIZACIÓN) -->
+    <section id="correcciones-build" class="patch-section">
+      <div class="section-badge-row">
+        <span class="section-author-badge author-collab">02. Correcciones &amp; Build</span>
+        <span class="section-discipline-tag">[COLISIONES // NAVMESH // URP // SDK 29]</span>
+      </div>
+      <h2 class="section-title">02. Corrección de Errores (Colisiones, Físicas y Optimización)</h2>
+      <p class="section-lead">
+        Resolución de bugs críticos de desplazamiento en VR, colisiones en enemigos y paredes, consolidación de escenas de Nivel 2, ajuste de renderizado con AmplifyColor y configuración de compilación para PC y Quest.
+      </p>
+
+      <div class="patch-items-stack">
+        <!-- 2.1 Prevención de Traspasar Paredes y Caer del Vacío -->
+        <article class="patch-card card-danger" data-category="bugfix vr">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-bugfix">[COLISIONES &amp; FÍSICAS]</span>
+            <span class="card-timestamp">CHARACTERCONTROLLER // NAVMESHSURFACE</span>
+          </div>
+          <h3 class="card-title">Prevención de traspasar paredes, bloqueos de cámara y colisiones fantasma</h3>
+          <p class="card-desc">
+            Se aseguró la solidez física de los escenarios y se corrigieron tres comportamientos erráticos detectados durante las pruebas en visor y simulador.
+          </p>
+          <ul class="feature-list feature-list-danger">
+            <li><strong><code>CharacterController</code> en <code>Player-VR</code>:</strong> Añadido en las tres escenas principales (<code>Prologo.unity</code>, <code>CasaNIvel2-Terreno.unity</code> y <code>Nivel 3.unity</code>) y conectado a <code>XRBodyTransformer</code> con <code>m_UseCharacterControllerIfExists: 1</code>.</li>
+            <li><strong>Colisionadores y Navegación:</strong> Se configuraron <code>MeshCollider</code> y colisionadores en paredes y suelos (<code>Pared</code>, <code>ParedFront</code>, <code>ParedPuerta</code>, <code>ParedIzq</code>, <code>ParedAtras</code>, <code>Suelo</code>, <code>SueloEnemigo</code> en <code>Prologo.unity</code>) y <code>NavMeshSurface</code> en Nivel 2.</li>
+          </ul>
+
+          <div class="specs-table-wrapper">
+            <table class="specs-table">
+              <thead>
+                <tr>
+                  <th>Script Corregido</th>
+                  <th>Problema Detectado</th>
+                  <th>Solución Aplicada</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>MovimientoJugador</code></td>
+                  <td>El desplazamiento se bloqueaba cuando el jugador miraba verticalmente hacia el suelo.</td>
+                  <td>Se corrigió el cálculo direccional cuando <code>frenteCamara.sqrMagnitude &lt; 0.01f</code>.</td>
+                </tr>
+                <tr>
+                  <td><code>SeguirEnemigoPlano</code></td>
+                  <td>Los enemigos podían elevarse o hundirse al perseguir al jugador en desniveles.</td>
+                  <td>Se restringió la persecución al plano <code>XZ</code> preservando la altura <code>Y</code>.</td>
+                </tr>
+                <tr>
+                  <td><code>SaludEnemigo</code></td>
+                  <td>Los cuerpos caídos seguían bloqueando el paso como muros invisibles.</td>
+                  <td>Al morir se deshabilitan el <code>Collider</code> y el componente <code>AtaqueEnemigo</code>.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="evidence-grid">
+            <div class="evidence-card">
+              <img src="assets/nueva_version/04_nivel2_navmesh_editor.jpg" alt="Scene View de CasaNIvel2-Terreno.unity con NavMeshSurface horneado en el bosque" class="evidence-img">
+              <div class="evidence-caption">
+                <div>
+                  <strong>NavMeshSurface en Nivel 2 (Scene View)</strong>
+                  <div class="evidence-subtext">Superficie navegable generada alrededor de la cabaña y terreno de <code>CasaNIvel2-Terreno.unity</code></div>
+                </div>
+                <span class="evidence-zoom-hint">Ampliar</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2.2 Limpieza, Render y Build -->
+        <article class="patch-card card-green" data-category="bugfix systems">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-optimization">[LIMPIEZA, RENDER Y BUILD]</span>
+            <span class="card-timestamp">COMMITS B48C801 &amp; F2FC6DF</span>
+          </div>
+          <h3 class="card-title">Consolidación de Escena Nivel 2, Perfiles URP y Builds Multiplataforma</h3>
+          <p class="card-desc">
+            Se depuró la estructura del proyecto y se dejaron listos los perfiles gráficos y de compilación para escritorio y visor autónomo.
+          </p>
+          <ul class="feature-list feature-list-green">
+            <li><strong>Consolidación de Nivel 2 (commit <code>b48c801</code>):</strong> Se eliminó la escena anterior <code>CasaNivel2.unity</code>, unificando el desarrollo en <code>CasaNIvel2-Terreno.unity</code>.</li>
+            <li><strong>Renderizado URP y Color (commit <code>f2fc6df</code>):</strong> Se ajustaron los perfiles gráficos (<code>PC_RPAsset.asset</code>, <code>PC_Renderer.asset</code> con <code>DecalRendererFeature</code>, <code>DefaultVolumeProfile.asset</code>) y se integró <code>AmplifyColor</code> para optimización y color.</li>
+            <li><strong>Configuración de Build:</strong> Configurado para <strong>Windows (<code>.exe</code>)</strong> y <strong>Android/Quest</strong> (<code>AndroidMinSdkVersion: 29</code>) dentro de <code>ProjectSettings.asset</code> y <code>EditorBuildSettings.asset</code>.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- 03. MENÚ PRINCIPAL, TRANSICIONES Y PREFERENCIAS -->
+    <section id="menu-preferencias" class="patch-section">
+      <div class="section-badge-row">
+        <span class="section-author-badge author-leo-loz">03. Menú &amp; Preferencias</span>
+        <span class="section-discipline-tag">[MENU.UNITY // COMMIT 9E77657 // PLAYERPREFS]</span>
+      </div>
+      <h2 class="section-title">03. Menú Principal, Transiciones y Preferencias</h2>
+      <p class="section-lead">
+        En <code>Menu.unity</code> y los scripts de <code>Assets/Scripts/</code> se implementó un menú VR funcional (commit <code>9e77657</code>) con navegación entre vistas, carga asíncrona, fundidos de pantalla y persistencia de comodidad VR.
+      </p>
+
+      <div class="patch-items-stack">
+        <article class="patch-card card-purple" data-category="systems vr">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-system">[MENÚ VR &amp; PERSISTENCIA]</span>
+            <span class="card-timestamp">ASSETS/SCRIPTS/ // GRADIENTSKYBOX</span>
+          </div>
+          <h3 class="card-title">Arquitectura del Menú Principal VR, Transiciones y Audio de UI</h3>
+          <div class="specs-table-wrapper">
+            <table class="specs-table">
+              <thead>
+                <tr>
+                  <th>Módulo / Script</th>
+                  <th>Responsabilidad Técnica</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>GameStartMenu</code></td>
+                  <td>Navegación entre paneles <code>mainMenu</code>, <code>options</code> y <code>about</code>, inicio asíncrono de partida y salida de la aplicación.</td>
+                </tr>
+                <tr>
+                  <td><code>SceneTransitionManager</code> &amp; <code>FadeScreen</code></td>
+                  <td>Transiciones fluidas entre escenas con efecto de fundido (<code>FadeIn</code> / <code>FadeOut</code>) adaptado a VR.</td>
+                </tr>
+                <tr>
+                  <td><code>SetOptionFromUI</code> &amp; <code>SetTurnTypeFromPlayerPref</code></td>
+                  <td>Control de volumen global (<code>AudioListener.volume</code>) y selector de giro (<code>SnapTurn</code> o <code>ContinuousTurn</code>) persistido en <code>PlayerPrefs</code>.</td>
+                </tr>
+                <tr>
+                  <td><code>AudioManager</code> &amp; <code>UIAudio</code></td>
+                  <td>Gestión centralizada de sonidos de interfaz (<code>hover</code> y <code>click</code>), integración de fuentes (<code>Cocogoose</code>, <code>Roboto</code>, <code>Socake</code>) y <code>GradientSkybox.shader</code>.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 04. PUERTAS, CERRADURAS Y MECÁNICAS DE COMBATE / IA -->
+    <section id="puertas-combate" class="patch-section">
+      <div class="section-badge-row">
+        <span class="section-author-badge author-leo-loz">04. Combate, Puertas &amp; IA</span>
+        <span class="section-discipline-tag">[PUERTAS VR // NAVMESH // COMBATE // CANVAS]</span>
+      </div>
+      <h2 class="section-title">04. Puertas, Cerraduras y Mecánicas de Combate / IA</h2>
+      <p class="section-lead">
+        Interacción física con puertas y llaves en capas dedicadas, persecución dinámica con <code>NavMeshAgent</code>, oleadas controladas, combate cuerpo a cuerpo y disparo VR, además de la reorganización de scripts de interfaz y efectos.
+      </p>
+
+      <div class="patch-items-stack">
+        <!-- 4.1 Puertas Interactivas en VR -->
+        <article class="patch-card card-teal" data-category="combat vr">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-input">[PUERTAS &amp; CERRADURAS VR]</span>
+            <span class="card-timestamp">QUATERNION.SLERP // TAGMANAGER.ASSET</span>
+          </div>
+          <h3 class="card-title">Puertas Interactivas, Desbloqueo por Llave y Eventos Trampa</h3>
+          <ul class="feature-list">
+            <li><strong><code>PuertaAbreYCierraVR</code>:</strong> Apertura y cierre suave mediante <code>Quaternion.Slerp</code>, eventos <code>SiPuertaAbierta</code> / <code>SiPuertaCerrada</code>, bandera de bloqueo <code>estaBloqueada</code> y clips propios para abrir, cerrar y picaporte atascado.</li>
+            <li><strong><code>CerraduraVR</code>:</strong> Desbloquea la puerta al detectar contacto con un objeto asignado a la capa <code>Llave</code> (definida en <code>TagManager.asset</code>) y destruye la llave utilizada.</li>
+            <li><strong><code>TrampaPuerta</code>:</strong> Trigger de evento narrativo que cierra la puerta principal de golpe y activa su bloqueo.</li>
+          </ul>
+        </article>
+
+        <!-- 4.2 Persecución, Combate y UI VR -->
+        <article class="patch-card card-danger" data-category="combat systems">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-combat">[PERSECUCIÓN IA &amp; COMBATE VR]</span>
+            <span class="card-timestamp">COMMIT BB99B0B // ASSETS/CODIGOVR/CANVAS/</span>
+          </div>
+          <h3 class="card-title">Persecución en NavMesh, Oleadas, Porra/Pistola VR y UI Reestructurada</h3>
+          <ul class="feature-list feature-list-danger">
+            <li><strong><code>SeguirJugadorVR</code>:</strong> Ubica al jugador por tag <code>"Player"</code> (con respaldo hacia <code>Camera.main</code>) y actualiza <code>agente.SetDestination(jugador.position)</code> sobre el <code>NavMeshSurface</code>.</li>
+            <li><strong><code>SpawnerFantasmas</code> &amp; <code>ActivarSpawnsBosque</code>:</strong> Generación controlada de oleadas con radio de dispersión.</li>
+            <li><strong><code>ArmaCuerpoACuerpoVR</code> (commit <code>bb99b0b</code>):</strong> Permite que la porra elimine a los fantasmas (<code>"Enemigo"</code>) aplicando daño directo a <code>SaludEnemigo</code>.</li>
+            <li><strong><code>Pistol</code> &amp; <code>BalaJugador</code>:</strong> Disparo VR desde <code>firePoint</code> con detección de impacto contra el tag/componente del jefe (<code>SaludJefe</code>).</li>
+            <li><strong>UI y Post-Procesado VR:</strong> Scripts de UI reestructurados bajo <code>Assets/CodigoVR/Canvas/</code> (<code>ControladorNotasUI</code>, <code>ControladorJuegoTerminado</code>, <code>EfectoCorduraUI</code>) y efectos visuales en <code>GestorEfectosVR</code>.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- 05. ILUMINACIÓN, ATMÓSFERA Y PARTÍCULAS -->
+    <section id="iluminacion-atmosfera" class="patch-section">
+      <div class="section-badge-row">
+        <span class="section-author-badge author-leo-g">05. Atmósfera &amp; VFX</span>
+        <span class="section-discipline-tag">[APAGÓN // NIEBLA // AUDIO // 66 PARTICLESYSTEM]</span>
+      </div>
+      <h2 class="section-title">05. Iluminación, Atmósfera y Partículas</h2>
+      <p class="section-lead">
+        Secuencias de terror sincronizadas con la linterna, cielo nocturno personalizado, niebla ambiental en los niveles exteriores y sistemas de partículas para humo de enemigos y ambientación en todas las escenas.
+      </p>
+
+      <div class="patch-items-stack">
+        <!-- 5.1 Iluminación y Secuencias de Terror -->
+        <article class="patch-card card-amber" data-category="art vr">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-art">[ILUMINACIÓN &amp; SECUENCIAS DE TERROR]</span>
+            <span class="card-timestamp">M_FOG: 1 // NOCHE.MAT // AUDIO</span>
+          </div>
+          <h3 class="card-title">Apagón con Parpadeo, Luces Focales, Niebla y Paisaje Sonoro</h3>
+          <ul class="feature-list feature-list-amber">
+            <li><strong><code>ControladorLucesCasa</code> + <code>LinternaVR</code>:</strong> Al tomar la linterna por primera vez, genera una secuencia de parpadeo (<code>cantidadParpadeos = 3</code>), apaga todas las luces de la casa y reproduce <code>LucesApagadas.mp3</code>.</li>
+            <li><strong>Iluminación, Niebla y Cielo:</strong> Luces ambientales y focales en todas las escenas (<code>LucesOficinaInicial</code>, <code>LucesPasillo</code>, <code>LucesExterior</code>, <code>LuzLinterna</code>, <code>Luz-Spot</code>, <code>LuzRangoAlto</code> y Luces de Nivel 3), niebla activada (<code>m_Fog: 1</code>) en Nivel 2 y Nivel 3, y cielo nocturno <code>Assets/Texturas/Escenas/Noche.mat</code> con cubemap propio.</li>
+            <li><strong>Audios Ambientales Añadidos:</strong> <code>MusicaPesadillasBosque.mp3</code>, <code>LucesApagadas.mp3</code> y lluvia/tormenta ASMR.</li>
+          </ul>
+
+          <div class="evidence-grid">
+            <div class="evidence-card">
+              <img src="assets/nueva_version/05_nivel2_cabana_niebla_vr.jpg" alt="Vista de la cabaña en CasaNIvel2-Terreno.unity con niebla y XR Device Simulator" class="evidence-img">
+              <div class="evidence-caption">
+                <div>
+                  <strong>Cabaña con Niebla en Nivel 2 (VR)</strong>
+                  <div class="evidence-subtext">Niebla activa (<code>m_Fog: 1</code>), iluminación exterior y aberración cromática en <code>XR Device Simulator</code></div>
+                </div>
+                <span class="evidence-zoom-hint">Ampliar</span>
+              </div>
+            </div>
+            <div class="evidence-card">
+              <img src="assets/nueva_version/06_nivel2_bosque_vr.jpg" alt="Bosque nocturno con niebla densa en CasaNIvel2-Terreno.unity" class="evidence-img">
+              <div class="evidence-caption">
+                <div>
+                  <strong>Bosque Nocturno en Nivel 2 (VR)</strong>
+                  <div class="evidence-subtext">Siluetas de pinos bajo niebla espesa y perfil de post-procesado URP</div>
+                </div>
+                <span class="evidence-zoom-hint">Ampliar</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 5.2 Sistemas de Partículas -->
+        <article class="patch-card card-green" data-category="art">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-optimization">[SISTEMAS DE PARTÍCULAS]</span>
+            <span class="card-timestamp">ASSETS/PARTICLESYSTEM/ // HUMO</span>
+          </div>
+          <h3 class="card-title">Materiales de Partículas, Humo en Enemigos y Conteo por Escena</h3>
+          <p class="card-desc">
+            Se crearon nuevos materiales y texturas en <code>Assets/ParticleSystem/</code> (<code>Smoke.png</code>, <code>Smoke.mat</code>, <code>Circulo.mat</code>, <code>Aro-01.png</code>, <code>PuntoDeLuz.mat</code>, <code>PuntoDLuz.png</code>). Además, <code>SaludEnemigo</code> instancia partículas de humo al aparecer y al morir mediante <code>GenerarEfectoHumo()</code>.
+          </p>
+
+          <div class="particle-count-grid">
+            <div class="particle-stat-card">
+              <div class="particle-stat-num">56</div>
+              <div class="particle-stat-scene">CasaNIvel2-Terreno.unity</div>
+              <div class="particle-stat-note">ParticleSystem en Nivel 2</div>
+            </div>
+            <div class="particle-stat-card">
+              <div class="particle-stat-num">6</div>
+              <div class="particle-stat-scene">Nivel 3.unity</div>
+              <div class="particle-stat-note">Incluye <code>ParticulasRodearMapa</code></div>
+            </div>
+            <div class="particle-stat-card">
+              <div class="particle-stat-num">3</div>
+              <div class="particle-stat-scene">Prologo.unity</div>
+              <div class="particle-stat-note">ParticleSystem en Nivel 1</div>
+            </div>
+            <div class="particle-stat-card">
+              <div class="particle-stat-num">1</div>
+              <div class="particle-stat-scene">Menu.unity</div>
+              <div class="particle-stat-note">Efecto <code>HumoPuro</code> en menú</div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 06. AVANCE POR NIVELES Y CONEXIÓN ENTRE ESCENAS -->
+    <section id="niveles-escenas" class="patch-section">
+      <div class="section-badge-row">
+        <span class="section-author-badge author-collab">06. Niveles &amp; Jefe Final</span>
+        <span class="section-discipline-tag">[PROLOGO // CASA NIVEL 2 // NIVEL 3]</span>
+      </div>
+      <h2 class="section-title">06. Avance por Niveles y Conexión entre Escenas</h2>
+      <p class="section-lead">
+        Progresión jugable estructurada en tres niveles conectados con transiciones VR, eventos narrativos y un enfrentamiento multifase contra el Jefe Final.
+      </p>
+
+      <div class="levels-flow-bar">
+        <div class="level-node level-node-1">
+          <div class="level-node-step">Nivel 1</div>
+          <div class="level-node-title">Prologo.unity</div>
+          <div class="level-node-link">AnticBed (CambiarNivelVR) &rarr; Nivel 2</div>
+        </div>
+        <div class="level-node level-node-2">
+          <div class="level-node-step">Nivel 2</div>
+          <div class="level-node-title">CasaNIvel2-Terreno.unity</div>
+          <div class="level-node-link">GestorDeHorda &rarr; TP-FinalBoss (PortalNivelVR)</div>
+        </div>
+        <div class="level-node level-node-3">
+          <div class="level-node-step">Nivel 3 (Final)</div>
+          <div class="level-node-title">Nivel 3.unity</div>
+          <div class="level-node-link">Fase 1 &rarr; Fase 2 (Artefactos) &rarr; DerrotarJefe()</div>
+        </div>
+      </div>
+
+      <div class="patch-items-stack">
+        <!-- Nivel 1 -->
+        <article class="patch-card card-teal" data-category="levels vr">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-input">[NIVEL 1 // PRÓLOGO]</span>
+            <span class="card-timestamp">PROLOGO.UNITY</span>
+          </div>
+          <h3 class="card-title">Nivel 1 (Prologo.unity): Oficina, Pasillo, Cuarto Seguro y Transición</h3>
+          <ul class="feature-list">
+            <li><strong>Escenario y Props:</strong> Oficina inicial, pasillo y cuarto seguro reacomodados con nuevos props (<code>silla.fbx</code>, <code>telefono.fbx</code>, <code>AnticBed.fbx</code>, <code>Llave.fbx</code>, texturas <code>Sangre-01/02</code>).</li>
+            <li><strong>Flujo Jugable VR:</strong> Completo con cinturón, porra, linterna, llave, puertas interactivas, activador de persecución (<code>ActivadorFaseUno</code>) y destrucción del jefe al entrar a zona segura (<code>ActivadorZonaSegura</code>).</li>
+            <li><strong>Conexión Nivel 1 &rarr; Nivel 2:</strong> El objeto de la cama (<code>AnticBed</code>) utiliza <code>CambiarNivelVR</code> apuntando a <code>CasaNIvel2-Terreno</code>.</li>
+            <li><strong>Pendiente confirmado:</strong> El modelo <code>telefono.fbx</code> ya está colocado en la escena, pero aún no tiene script asignado para la mecánica de sonar/interactuar.</li>
+          </ul>
+        </article>
+
+        <!-- Nivel 2 -->
+        <article class="patch-card card-amber" data-category="levels combat">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-levels">[NIVEL 2 // CASA Y BOSQUE]</span>
+            <span class="card-timestamp">CASANIVEL2-TERRENO.UNITY</span>
+          </div>
+          <h3 class="card-title">Nivel 2 (CasaNIvel2-Terreno.unity): Apagón, Horda en Bosque y Portal</h3>
+          <ul class="feature-list feature-list-amber">
+            <li><strong>Secuencia Completa:</strong> Recoger la linterna (apagón + fantasmas interiores + habilitación de <code>ActivadorSpawn</code>), abrir/cerrar puertas y cerradura con llave, activar spawns exteriores en el bosque y ocultar la casa al avanzar (<code>OcultarCasa</code>).</li>
+            <li><strong>Conexión Nivel 2 &rarr; Nivel 3:</strong> Se creó <code>GestorDeHorda</code> (oculta el portal hasta que se vacía la lista <code>fantasmas</code> y luego lo activa) junto con el objeto <code>TP-FinalBoss</code> que usa <code>PortalNivelVR</code>.</li>
+          </ul>
+        </article>
+
+        <!-- Nivel 3 -->
+        <article class="patch-card card-purple" data-category="levels combat">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-system">[NIVEL 3 // COMBATE MULTIFASE CONTRA EL JEFE]</span>
+            <span class="card-timestamp">NIVEL 3.UNITY // ASSETS/CODIGO/NIVEL FINAL/ENEMIGO/</span>
+          </div>
+          <h3 class="card-title">Nivel 3 (Nivel 3.unity): Arena Final y Combate en 3 Fases</h3>
+          <p class="card-desc">
+            Escenario final completo con modelos propios (<code>EscenarioFinal 1.fbx</code>, <code>Pilar.fbx</code>, <code>Roca.fbx</code>), prefabs (<code>MinionNivel3.prefab</code>, <code>Pilar.prefab</code>, <code>Proyectil.prefab</code>, <code>RocaFase2.prefab</code>), puntos de teletransporte (<code>PuntosTp</code>), cielo nocturno y niebla azul/morada.
+          </p>
+
+          <div class="specs-table-wrapper">
+            <table class="specs-table">
+              <thead>
+                <tr>
+                  <th>Fase / Sistema</th>
+                  <th>Scripts / Objetos</th>
+                  <th>Mecánica del Enfrentamiento</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Fase 1</strong></td>
+                  <td><code>JefeFase1</code> &amp; <code>GeneradorMinions</code></td>
+                  <td>Durante <code>30f</code> segundos (<code>duracionTotalFase1</code>), el jefe es invulnerable, se teletransporta entre <code>puntosTeleport</code> y dispara proyectiles físicos con ambas manos (<code>ProyectilJefe</code>) mientras aparecen minions alrededor.</td>
+                </tr>
+                <tr>
+                  <td><strong>Fase 2</strong></td>
+                  <td><code>ControladorFase2</code> &amp; <code>BotonArtefactoFase2</code></td>
+                  <td>Se ocultan los pilares (<code>Fase1_Objetos</code>) y se activan los artefactos interactivos (<code>Fase2_Objetos</code>). Al pulsar los botones en VR cambian a color verde y, al completarlos, llaman a <code>SaludJefe.ActivarVulnerabilidad()</code> e <code>IniciarFase3()</code>.</td>
+                </tr>
+                <tr>
+                  <td><strong>Daño al Jefe</strong></td>
+                  <td><code>SaludJefe</code></td>
+                  <td>Una vez vulnerable, las balas del jugador reducen su barra de vida UI hasta ejecutar <code>DerrotarJefe()</code>.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="evidence-grid">
+            <div class="evidence-card">
+              <img src="assets/nueva_version/01_nivel3_arena_editor.jpg" alt="Editor de Unity mostrando la arena circular, pilares, jefe y barra de vida en Nivel 3" class="evidence-img">
+              <div class="evidence-caption">
+                <div>
+                  <strong>Arena Final en Editor y Game View</strong>
+                  <div class="evidence-subtext">Plataforma con 4 pilares, rocas perimetrales, jefe y barra de vida UI</div>
+                </div>
+                <span class="evidence-zoom-hint">Ampliar</span>
+              </div>
+            </div>
+            <div class="evidence-card">
+              <img src="assets/nueva_version/02_nivel3_minion_vr.jpg" alt="Combate en VR frente a MinionNivel3.prefab en Nivel 3" class="evidence-img">
+              <div class="evidence-caption">
+                <div>
+                  <strong>Minion en Arena (Vista VR)</strong>
+                  <div class="evidence-subtext">Manos VR frente a <code>MinionNivel3.prefab</code> entre pilares bajo cielo <code>Noche.mat</code></div>
+                </div>
+                <span class="evidence-zoom-hint">Ampliar</span>
+              </div>
+            </div>
+            <div class="evidence-card">
+              <img src="assets/nueva_version/03_nivel3_jefe_simulador.jpg" alt="Jefe Final lanzando proyectil en Nivel 3 con XR Device Simulator" class="evidence-img">
+              <div class="evidence-caption">
+                <div>
+                  <strong>Jefe Final con Proyectil (Simulador VR)</strong>
+                  <div class="evidence-subtext"><code>ProyectilJefe</code> en mano del jefe y panel de controles <code>XR Device Simulator</code></div>
+                </div>
+                <span class="evidence-zoom-hint">Ampliar</span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 07. GALERÍA COMPLETA DE CAPTURAS DE LA NUEVA VERSIÓN -->
+    <section id="galeria-nueva" class="patch-section">
+      <div class="section-badge-row">
+        <span class="section-author-badge author-collab">07. Galería Nueva Versión</span>
+        <span class="section-discipline-tag">[8 CAPTURAS // NIVEL 1, 2 Y 3]</span>
+      </div>
+      <h2 class="section-title">07. Galería de Capturas — Nueva Versión VR</h2>
+      <p class="section-lead">
+        Compilación completa de las 8 capturas de esta iteración: resaltado emisivo en el Prólogo, NavMeshSurface y niebla nocturna en la Cabaña/Bosque, y el combate multifase en Nivel 3. Haz clic en cualquier captura para ampliarla.
+      </p>
+
+      <div class="evidence-grid">
+        <div class="evidence-card">
+          <img src="assets/nueva_version/07_nivel1_oficina_resaltado.jpg" alt="Nivel 1 Oficina inicial con porra resaltada y teléfono" class="evidence-img evidence-img-large">
+          <div class="evidence-caption">
+            <div>
+              <strong>Nivel 1 — Oficina y Porra Resaltada</strong>
+              <div class="evidence-subtext"><code>Prologo.unity</code>: <code>T_Batton-Resaltado.mat</code>, <code>telefono.fbx</code> y manos VR</div>
+            </div>
+            <span class="evidence-zoom-hint">Ampliar</span>
+          </div>
+        </div>
+
+        <div class="evidence-card">
+          <img src="assets/nueva_version/08_nivel1_puerta_resaltada.jpg" alt="Nivel 1 Puerta resaltada con DoorsMap01-Resaltado.mat" class="evidence-img evidence-img-large">
+          <div class="evidence-caption">
+            <div>
+              <strong>Nivel 1 — Puerta Interactiva Resaltada</strong>
+              <div class="evidence-subtext"><code>DoorsMap01-Resaltado.mat</code> con parpadeo emisivo y textura de sangre</div>
+            </div>
+            <span class="evidence-zoom-hint">Ampliar</span>
+          </div>
+        </div>
+
+        <div class="evidence-card">
+          <img src="assets/nueva_version/04_nivel2_navmesh_editor.jpg" alt="NavMeshSurface horneado en Nivel 2" class="evidence-img evidence-img-large">
+          <div class="evidence-caption">
+            <div>
+              <strong>Nivel 2 — NavMeshSurface en Editor</strong>
+              <div class="evidence-subtext"><code>CasaNIvel2-Terreno.unity</code>: área navegable alrededor de la cabaña</div>
+            </div>
+            <span class="evidence-zoom-hint">Ampliar</span>
+          </div>
+        </div>
+
+        <div class="evidence-card">
+          <img src="assets/nueva_version/05_nivel2_cabana_niebla_vr.jpg" alt="Cabaña de Nivel 2 envuelta en niebla en XR Device Simulator" class="evidence-img evidence-img-large">
+          <div class="evidence-caption">
+            <div>
+              <strong>Nivel 2 — Cabaña con Niebla (VR)</strong>
+              <div class="evidence-subtext">Iluminación nocturna, niebla (<code>m_Fog: 1</code>) y <code>XR Device Simulator</code></div>
+            </div>
+            <span class="evidence-zoom-hint">Ampliar</span>
+          </div>
+        </div>
+
+        <div class="evidence-card">
+          <img src="assets/nueva_version/06_nivel2_bosque_vr.jpg" alt="Bosque de Nivel 2 en XR Device Simulator" class="evidence-img evidence-img-large">
+          <div class="evidence-caption">
+            <div>
+              <strong>Nivel 2 — Bosque Nocturno (VR)</strong>
+              <div class="evidence-subtext">Atmósfera de terror, niebla espesa y post-procesado URP</div>
+            </div>
+            <span class="evidence-zoom-hint">Ampliar</span>
+          </div>
+        </div>
+
+        <div class="evidence-card">
+          <img src="assets/nueva_version/01_nivel3_arena_editor.jpg" alt="Vista de editor y cámara del Nivel 3 con Jefe Final" class="evidence-img evidence-img-large">
+          <div class="evidence-caption">
+            <div>
+              <strong>Nivel 3 — Arena Final (Scene &amp; Game)</strong>
+              <div class="evidence-subtext"><code>Nivel 3.unity</code>: pilares, rocas, jefe y barra de vida UI superior</div>
+            </div>
+            <span class="evidence-zoom-hint">Ampliar</span>
+          </div>
+        </div>
+
+        <div class="evidence-card">
+          <img src="assets/nueva_version/02_nivel3_minion_vr.jpg" alt="Minion en Nivel 3 visto desde manos VR" class="evidence-img evidence-img-large">
+          <div class="evidence-caption">
+            <div>
+              <strong>Nivel 3 — Minion en Combate (VR)</strong>
+              <div class="evidence-subtext"><code>MinionNivel3.prefab</code> frente a manos VR entre pilares iluminados</div>
+            </div>
+            <span class="evidence-zoom-hint">Ampliar</span>
+          </div>
+        </div>
+
+        <div class="evidence-card">
+          <img src="assets/nueva_version/03_nivel3_jefe_simulador.jpg" alt="Jefe Final con esfera de proyectil en Nivel 3" class="evidence-img evidence-img-large">
+          <div class="evidence-caption">
+            <div>
+              <strong>Nivel 3 — Jefe y Proyectil (Simulador)</strong>
+              <div class="evidence-subtext">Ataque de <code>ProyectilJefe</code> y controles activos de <code>XR Device Simulator</code></div>
+            </div>
+            <span class="evidence-zoom-hint">Ampliar</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08. NOTAS TÉCNICAS (DETALLES PENDIENTES DETECTADOS) -->
+    <section id="notas-tecnicas" class="patch-section">
+      <div class="section-badge-row">
+        <span class="section-author-badge author-leo-g">08. Notas Técnicas</span>
+        <span class="section-discipline-tag">[DETALLES PENDIENTES // INTEGRACIÓN FINAL]</span>
+      </div>
+      <h2 class="section-title">08. Notas Técnicas (Detalles Pendientes Detectados en el Proyecto)</h2>
+      <p class="section-lead">
+        Al revisar las escenas y la configuración del proyecto, se documentaron los siguientes puntos puntuales para cerrar la integración final entre niveles y mecánicas.
+      </p>
+
+      <div class="patch-items-stack">
+        <article class="patch-card card-danger" data-category="levels bugfix">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-bugfix">[PENDIENTE 01 // CONEXIÓN NIVEL 2 &rarr; NIVEL 3]</span>
+            <span class="card-timestamp">TP-FINALBOSS // EDITORBUILDSETTINGS.ASSET</span>
+          </div>
+          <h3 class="card-title">Nombre exacto de escena y registro en Scenes In Build</h3>
+          <p class="card-desc">
+            La escena final se llama <code>Nivel 3.unity</code> (con espacio), pero en <code>TP-FinalBoss</code> dentro de <code>CasaNIvel2-Terreno.unity</code> el script <code>PortalNivelVR</code> apunta a <code>Nivel3</code> (sin espacio). Además, <code>Nivel 3.unity</code> aún no figura dentro de <code>Scenes In Build</code> en <code>EditorBuildSettings.asset</code>.
+          </p>
+        </article>
+
+        <article class="patch-card card-amber" data-category="levels bugfix">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-levels">[PENDIENTE 02 // NIVEL 2]</span>
+            <span class="card-timestamp">CASANIVEL2-TERRENO.UNITY // GESTORDEHORDA</span>
+          </div>
+          <h3 class="card-title">Adjuntar script y referencias en GestorDeHorda</h3>
+          <p class="card-desc">
+            El GameObject <code>GestorDeHorda</code> ya existe en <code>CasaNIvel2-Terreno.unity</code>, pero todavía falta adjuntarle el script <code>GestorDeHorda</code> y arrastrar en el Inspector la lista de <code>fantasmas</code> junto con la referencia al portal <code>TP-FinalBoss</code>.
+          </p>
+        </article>
+
+        <article class="patch-card card-purple" data-category="levels combat">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-system">[PENDIENTE 03 // NIVEL 3]</span>
+            <span class="card-timestamp">JEFEFASE1.INICIARFASE3() // SALUDJEFE.DERROTARJEFE()</span>
+          </div>
+          <h3 class="card-title">Remate visual y cinemático de Fase 3</h3>
+          <p class="card-desc">
+            Tanto <code>JefeFase1.IniciarFase3()</code> como <code>SaludJefe.DerrotarJefe()</code> ya están conectados y listos en código, pero tienen pendiente agregar la lógica visual/cinemática final (plataforma reduciéndose, manos gigantes y pantalla de victoria).
+          </p>
+        </article>
+
+        <article class="patch-card card-teal" data-category="levels vr">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-input">[PENDIENTE 04 // NIVEL 1]</span>
+            <span class="card-timestamp">PROLOGO.UNITY // TELEFONO.FBX</span>
+          </div>
+          <h3 class="card-title">Script de interacción para telefono.fbx en Prólogo</h3>
+          <p class="card-desc">
+            El modelo <code>telefono.fbx</code> ya se encuentra colocado sobre el escritorio en la oficina inicial de <code>Prologo.unity</code>, pero aún no tiene un script asignado para la mecánica de sonar/interactuar.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Footer Académico e Institucional -->
+    <footer class="patch-footer">
+      <div class="footer-top">
+        <div class="footer-academic-info">
+          <h4>Universidad Autónoma de Ciudad Juárez (UACJ)</h4>
+          <p>Licenciatura en Diseño Digital de Medios Interactivos (DDMI) — Semestre 10</p>
+          <p>Materia: Games Engines 2 // Nueva Versión: Migración VR, Combate y 3 Niveles</p>
+        </div>
+
+        <div class="footer-team-members">
+          <div class="member-box">
+            <h5>Leonardo Lozano</h5>
+            <p>Infraestructura OpenXR, Cinturón VR, Menú, Combate IA y Jefe</p>
+          </div>
+          <div class="member-box">
+            <h5>Leonardo García</h5>
+            <p>Niveles, Iluminación, Apagón, Partículas, URP y Optimización VR</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 No Time to Doubt — Nueva Versión VR (Separada del <a href="index.html" style="color: var(--color-primary); font-weight: 700; text-decoration: none;">Avance Base</a>)</span>
+        <span>HTML, CSS y JS Vanilla listo para desplegar en Vercel</span>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Modal Lightbox para Inspección de Imágenes -->
+  <div id="lightbox-modal" class="lightbox-modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="lightbox-content-box">
+      <button id="lightbox-close" class="lightbox-close-btn" type="button" aria-label="Cerrar vista">&times;</button>
+      <img id="lightbox-img" src="" alt="Vista ampliada" class="lightbox-img">
+      <div id="lightbox-caption" class="lightbox-caption-text"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
+

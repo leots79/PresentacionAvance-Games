@@ -22,9 +22,23 @@
 
   <!-- Barra de Navegación Fija Superior -->
   <header class="top-nav">
+    <!-- Selector de Versión: Separación entre Lo Base y Lo Nuevo -->
+    <div class="version-strip">
+      <div class="version-strip-inner">
+        <span class="version-strip-label">HISTORIAL DE AVANCES // NO TIME TO DOUBT</span>
+        <div class="version-switcher" role="navigation" aria-label="Cambiar de versión de avances">
+          <a href="index.html" class="version-tab active" aria-current="page">Avance Base (Lo que ya está)</a>
+          <a href="nueva-version.html" class="version-tab">
+            Nueva Versión (VR &amp; 3 Niveles)
+            <span class="version-pill-new">NUEVO</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
     <div class="nav-container">
       <div class="brand-wrapper">
-        <span class="brand-badge">AVANCES</span>
+        <span class="brand-badge">AVANCE BASE</span>
         <a href="#hero" class="brand-title">NO TIME TO DOUBT</a>
       </div>
 
@@ -39,6 +53,7 @@
       </nav>
 
       <div class="nav-actions">
+        <a href="nueva-version.html" class="btn-nav-secondary">Ver Lo Nuevo &rarr;</a>
         <a href="#gameplay-video-section" class="btn-nav-primary">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
             <path d="M8 5v14l11-7z"/>
@@ -50,6 +65,34 @@
   </header>
 
   <main class="main-layout">
+    <!-- Callout de Acceso Directo a la Nueva Versión -->
+    <aside class="version-callout" aria-label="Acceso a la nueva versión de avances">
+      <div class="version-callout-body">
+        <div class="version-callout-badge-row">
+          <span class="callout-badge-new">ACTUALIZACIÓN DISPONIBLE // NUEVA VERSIÓN</span>
+          <span class="callout-badge-sep">SEPARADO DEL AVANCE BASE</span>
+        </div>
+        <h2 class="version-callout-title">Avances Recientes: Migración OpenXR, Cinturón VR, Combate y 3 Niveles</h2>
+        <p class="version-callout-desc">
+          Esta vista conserva intacto el avance anterior para mantener separados los hitos. Puedes acceder a la documentación completa de la nueva versión con todas las mecánicas VR, correcciones de colisiones, menú principal, atmósfera con partículas, jefe final y las nuevas capturas de pantalla.
+        </p>
+        <div class="version-highlights-row">
+          <span class="highlight-chip">OpenXR 1.14.3 &amp; XRI 3.0.11</span>
+          <span class="highlight-chip">CinturonVR &amp; Resaltado URP</span>
+          <span class="highlight-chip">NavMesh &amp; CharacterController</span>
+          <span class="highlight-chip">Menu.unity + Preferencias</span>
+          <span class="highlight-chip">Puertas, Llaves &amp; Combate</span>
+          <span class="highlight-chip">Prologo &rarr; Casa Nivel 2 &rarr; Nivel 3 (Jefe)</span>
+        </div>
+      </div>
+      <div class="version-callout-actions">
+        <a href="nueva-version.html" class="btn-callout-new">
+          Acceder a Lo Nuevo &rarr;
+        </a>
+        <span class="btn-callout-hint">6 secciones técnicas + 8 capturas nuevas</span>
+      </div>
+    </aside>
+
     <!-- Encabezado / Hero -->
     <header id="hero" class="patch-header">
       <div class="patch-meta-top">

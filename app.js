@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // 2. Filtros de notas del parche
   const filterBtns = document.querySelectorAll('.filter-btn');
   const patchCards = document.querySelectorAll('.patch-card');
+  const patchSections = document.querySelectorAll('.patch-section');
 
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -28,12 +29,24 @@ document.addEventListener('DOMContentLoaded', () => {
       const filterCategory = btn.getAttribute('data-filter');
 
       patchCards.forEach(card => {
-        const cardCategory = card.getAttribute('data-category');
-        if (filterCategory === 'all' || cardCategory === filterCategory || cardCategory.includes(filterCategory)) {
+        const cardCategory = (card.getAttribute('data-category') || '').trim();
+        const tokens = cardCategory ? cardCategory.split(/\s+/) : [];
+        if (filterCategory === 'all' || tokens.includes(filterCategory)) {
           card.style.display = 'block';
         } else {
           card.style.display = 'none';
         }
+      });
+
+      // Ocultar secciones con tarjetas si todas sus tarjetas fueron filtradas
+      patchSections.forEach(section => {
+        const cardsInSection = section.querySelectorAll('.patch-card');
+        if (cardsInSection.length === 0) {
+          section.style.display = 'block';
+          return;
+        }
+        const hasVisibleCard = Array.from(cardsInSection).some(c => c.style.display !== 'none');
+        section.style.display = hasVisibleCard ? 'block' : 'none';
       });
     });
   });
@@ -225,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Tecla 'F' activa pantalla completa en el video si está en pantalla
     if (e.key === 'f' || e.key === 'F') {
-      if (!lightboxModal.classList.contains('active') && gameplayVideo) {
+      if ((!lightboxModal || !lightboxModal.classList.contains('active')) && gameplayVideo) {
         const rect = gameplayVideo.getBoundingClientRect();
         if (rect.top >= -200 && rect.bottom <= window.innerHeight + 300) {
           if (!document.fullscreenElement) {
