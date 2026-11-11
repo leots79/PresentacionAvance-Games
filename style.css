@@ -1113,6 +1113,43 @@ pre.code-content {
   color: var(--text-muted);
 }
 
+/* Swatches de Paleta de Identidad */
+.palette-swatches-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin: 1.1rem 0;
+}
+
+.palette-swatch-card {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  background-color: var(--bg-surface-alt);
+}
+
+.palette-swatch-color {
+  height: 52px;
+  width: 100%;
+}
+
+.palette-swatch-meta {
+  padding: 0.55rem 0.7rem;
+}
+
+.palette-swatch-hex {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.palette-swatch-name {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 0.1rem;
+}
+
 /* Responsividad */
 /* ==========================================================================
    ELEMENTOS DE NUEVA VERSIÓN & BANNER DE SEPARACIÓN (SIN DEGRADADOS)
@@ -1436,6 +1473,43 @@ pre.code-content {
   font-size: 0.75rem;
   color: var(--color-success);
   font-weight: 700;
+}
+
+/* Swatches de Paleta de Identidad */
+.palette-swatches-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin: 1.1rem 0;
+}
+
+.palette-swatch-card {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  background-color: var(--bg-surface-alt);
+}
+
+.palette-swatch-color {
+  height: 52px;
+  width: 100%;
+}
+
+.palette-swatch-meta {
+  padding: 0.55rem 0.7rem;
+}
+
+.palette-swatch-hex {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.palette-swatch-name {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 0.1rem;
 }
 
 /* Responsividad */

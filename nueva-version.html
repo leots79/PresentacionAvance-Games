@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>No Time to Doubt — Nueva Versión VR</title>
-  <meta name="description" content="Resumen directo con texto e imágenes de la nueva versión de No Time to Doubt: OpenXR, Cinturón VR, Combate, Atmósfera y 3 Niveles.">
+  <meta name="description" content="Avances de la nueva versión de No Time to Doubt: Identidad visual, OpenXR, Cinturón VR, Combate, Atmósfera y 3 Niveles.">
 
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
@@ -41,10 +41,11 @@
 
       <nav>
         <ul class="nav-links">
-          <li><a href="#vr-menu" class="nav-link">01. VR &amp; Menú</a></li>
-          <li><a href="#colisiones-combate" class="nav-link">02. Físicas &amp; Combate</a></li>
-          <li><a href="#atmosfera-particulas" class="nav-link">03. Luz &amp; Partículas</a></li>
-          <li><a href="#niveles-jefe" class="nav-link">04. Niveles &amp; Jefe</a></li>
+          <li><a href="#identidad-visual" class="nav-link">01. Identidad</a></li>
+          <li><a href="#vr-menu" class="nav-link">02. VR &amp; Menú</a></li>
+          <li><a href="#colisiones-combate" class="nav-link">03. Físicas &amp; Combate</a></li>
+          <li><a href="#atmosfera-particulas" class="nav-link">04. Luz &amp; Partículas</a></li>
+          <li><a href="#niveles-jefe" class="nav-link">05. Niveles &amp; Jefe</a></li>
         </ul>
       </nav>
 
@@ -65,10 +66,15 @@
 
       <h1 class="patch-title">Avances de la Nueva Versión</h1>
       <p class="patch-subtitle">
-        Migración a OpenXR y XR Interaction Toolkit, inventario en cintura (<code>CinturonVR</code>), menú principal, corrección de colisiones, combate e IA, iluminación con partículas y los 3 niveles conectados hasta el Jefe Final.
+        Identidad visual del juego (logotipo, paleta cromática y mockups), migración a OpenXR y XR Interaction Toolkit, inventario en cintura (<code>CinturonVR</code>), menú principal, colisiones, combate e IA, partículas y 3 niveles hasta el Jefe Final.
       </p>
 
       <div class="patch-stats-grid">
+        <div class="stat-item">
+          <div class="stat-label">Identidad de Marca</div>
+          <div class="stat-value">Logo &amp; Mockups</div>
+          <div class="stat-detail">Paleta oficial 4 tonos y estilo expediente noir</div>
+        </div>
         <div class="stat-item">
           <div class="stat-label">Stack VR</div>
           <div class="stat-value">OpenXR + XRI 3.0</div>
@@ -78,11 +84,6 @@
           <div class="stat-label">Flujo del Juego</div>
           <div class="stat-value">Menú + 3 Niveles</div>
           <div class="stat-detail">Menu, Prologo, CasaNIvel2-Terreno y Nivel 3</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-label">Atmósfera y VFX</div>
-          <div class="stat-value">66 Partículas</div>
-          <div class="stat-detail">Apagón de luces, niebla URP y cielo nocturno</div>
         </div>
         <div class="stat-item">
           <div class="stat-label">Compilación</div>
@@ -96,19 +97,156 @@
     <nav class="patch-filters" aria-label="Filtro de avances">
       <span class="filter-label">Filtrar:</span>
       <button class="filter-btn active" data-filter="all">Todo</button>
+      <button class="filter-btn" data-filter="identity">Identidad &amp; Mockups</button>
       <button class="filter-btn" data-filter="vr">VR &amp; Menú</button>
       <button class="filter-btn" data-filter="combat">Físicas &amp; Combate</button>
       <button class="filter-btn" data-filter="art">Luz &amp; Partículas</button>
       <button class="filter-btn" data-filter="levels">Niveles &amp; Jefe</button>
     </nav>
 
-    <!-- 01. VR, CINTURÓN, MENÚ Y FEEDBACK (TEXTO + IMAGEN) -->
+    <!-- 01. IDENTIDAD VISUAL: LOGO, PALETA Y MOCKUPS -->
+    <section id="identidad-visual" class="patch-section">
+      <div class="section-badge-row">
+        <span class="section-author-badge author-collab">01. Identidad Visual</span>
+        <span class="section-discipline-tag">[BRANDING // PALETA // MOCKUPS]</span>
+      </div>
+      <h2 class="section-title">01. Identidad Visual, Logotipo y Mockups</h2>
+
+      <div class="patch-items-stack">
+        <!-- Tarjeta de Logotipo y Paleta -->
+        <article class="patch-card card-purple" data-category="identity">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-system">[LOGOTIPO &amp; PALETA CROMÁTICA]</span>
+            <span class="card-timestamp">SUSPENSO // NOIR // TERROR</span>
+          </div>
+          <h3 class="card-title">Diseño del Logotipo y Códigos de Color Oficiales</h3>
+          <p class="card-desc">
+            Desarrollamos la identidad gráfica de <strong>No Time to Doubt</strong> con una tipografía texturizada de bordes desgastados que evoca misterio, deterioro y tensión psicológica. Se estableció una paleta de cuatro colores base para el juego y su material promocional:
+          </p>
+
+          <div class="palette-swatches-grid">
+            <div class="palette-swatch-card">
+              <div class="palette-swatch-color" style="background-color: #4b1426;"></div>
+              <div class="palette-swatch-meta">
+                <div class="palette-swatch-hex">#4b1426</div>
+                <div class="palette-swatch-name">Vino / Tinto Suspenso</div>
+              </div>
+            </div>
+            <div class="palette-swatch-card">
+              <div class="palette-swatch-color" style="background-color: #17433f;"></div>
+              <div class="palette-swatch-meta">
+                <div class="palette-swatch-hex">#17433f</div>
+                <div class="palette-swatch-name">Verde Pino / Bosque</div>
+              </div>
+            </div>
+            <div class="palette-swatch-card">
+              <div class="palette-swatch-color" style="background-color: #558467;"></div>
+              <div class="palette-swatch-meta">
+                <div class="palette-swatch-hex">#558467</div>
+                <div class="palette-swatch-name">Verde Salvia / Musgo</div>
+              </div>
+            </div>
+            <div class="palette-swatch-card">
+              <div class="palette-swatch-color" style="background-color: #efeabb;"></div>
+              <div class="palette-swatch-meta">
+                <div class="palette-swatch-hex">#efeabb</div>
+                <div class="palette-swatch-name">Crema Pergamino / Luz</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="evidence-grid">
+            <div class="evidence-card">
+              <img src="assets/identidad/logo_crema.png" alt="Logotipo No Time to Doubt sobre fondo crema" class="evidence-img">
+              <div class="evidence-caption">
+                <div>
+                  <strong>Logo — Variante Fondo Crema</strong>
+                  <div class="evidence-subtext">Texto en color vino (<code>#4b1426</code>) sobre crema (<code>#efeabb</code>)</div>
+                </div>
+                <span class="evidence-zoom-hint">Ampliar</span>
+              </div>
+            </div>
+            <div class="evidence-card">
+              <img src="assets/identidad/logo_pino.png" alt="Logotipo No Time to Doubt sobre fondo verde pino" class="evidence-img">
+              <div class="evidence-caption">
+                <div>
+                  <strong>Logo — Variante Verde Pino</strong>
+                  <div class="evidence-subtext">Texto crema sobre fondo bosque oscuro (<code>#17433f</code>)</div>
+                </div>
+                <span class="evidence-zoom-hint">Ampliar</span>
+              </div>
+            </div>
+            <div class="evidence-card">
+              <img src="assets/identidad/logo_verde.png" alt="Logotipo No Time to Doubt sobre fondo verde salvia" class="evidence-img">
+              <div class="evidence-caption">
+                <div>
+                  <strong>Logo — Variante Verde Salvia</strong>
+                  <div class="evidence-subtext">Texto crema sobre fondo salvia (<code>#558467</code>)</div>
+                </div>
+                <span class="evidence-zoom-hint">Ampliar</span>
+              </div>
+            </div>
+            <div class="evidence-card">
+              <img src="assets/identidad/logo_vino.png" alt="Logotipo No Time to Doubt sobre fondo vino" class="evidence-img">
+              <div class="evidence-caption">
+                <div>
+                  <strong>Logo — Variante Tinto Suspenso</strong>
+                  <div class="evidence-subtext">Texto crema sobre fondo tinto (<code>#4b1426</code>)</div>
+                </div>
+                <span class="evidence-zoom-hint">Ampliar</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Tarjeta de Mockups -->
+        <article class="patch-card card-teal" data-category="identity">
+          <div class="card-header-line">
+            <span class="card-type-tag tag-input">[MOCKUPS CONCEPTUALES]</span>
+            <span class="card-timestamp">EXPEDIENTE POLICIAL // PÓSTER GRUNGE</span>
+          </div>
+          <h3 class="card-title">Mockups Fotorrealistas de Aplicación</h3>
+          <p class="card-desc">
+            Diseñamos dos mockups que sitúan la narrativa del juego en una atmósfera de investigación y peligro constante:
+          </p>
+          <ul class="feature-list">
+            <li><strong>Mockup 01 — Carpeta de Expediente:</strong> Carpeta de archivo confidencial sobre escritorio rústico con el logo troquelado, acompañada de lupa de investigación, pluma, balas de revólver y las llaves de la cabaña.</li>
+            <li><strong>Mockup 02 — Póster Metálico con Impactos de Bala:</strong> Acabado oscuro desgastado con perforaciones reales de proyectil y relieve tipográfico en tonos pergamino y tinto.</li>
+          </ul>
+
+          <div class="evidence-grid">
+            <div class="evidence-card">
+              <img src="assets/identidad/mockup_carpeta.jpg" alt="Mockup de carpeta de expediente de detective No Time to Doubt" class="evidence-img evidence-img-large">
+              <div class="evidence-caption">
+                <div>
+                  <strong>Mockup 01 — Carpeta de Archivo &amp; Investigación</strong>
+                  <div class="evidence-subtext">Escritorio con expediente, pluma, lupa, llaves y balas</div>
+                </div>
+                <span class="evidence-zoom-hint">Ampliar</span>
+              </div>
+            </div>
+            <div class="evidence-card">
+              <img src="assets/identidad/mockup_poster.jpg" alt="Mockup póster con impactos de bala No Time to Doubt" class="evidence-img evidence-img-large">
+              <div class="evidence-caption">
+                <div>
+                  <strong>Mockup 02 — Póster con Impactos de Bala</strong>
+                  <div class="evidence-subtext">Textura metálica grunge con orificios de proyectil y relieve</div>
+                </div>
+                <span class="evidence-zoom-hint">Ampliar</span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 02. VR, CINTURÓN, MENÚ Y FEEDBACK (TEXTO + IMAGEN) -->
     <section id="vr-menu" class="patch-section">
       <div class="section-badge-row">
-        <span class="section-author-badge author-leo-loz">01. VR, Cinturón &amp; Menú</span>
+        <span class="section-author-badge author-leo-loz">02. VR, Cinturón &amp; Menú</span>
         <span class="section-discipline-tag">[OPENXR // CINTURÓN // MENU.UNITY]</span>
       </div>
-      <h2 class="section-title">01. Infraestructura VR, Cinturón, Menú y Objetos Resaltados</h2>
+      <h2 class="section-title">02. Infraestructura VR, Cinturón, Menú y Objetos Resaltados</h2>
 
       <div class="patch-items-stack">
         <article class="patch-card card-blue" data-category="vr">
@@ -151,13 +289,13 @@
       </div>
     </section>
 
-    <!-- 02. FÍSICAS, COLISIONES, PUERTAS Y COMBATE IA (TEXTO + IMAGEN) -->
+    <!-- 03. FÍSICAS, COLISIONES, PUERTAS Y COMBATE IA (TEXTO + IMAGEN) -->
     <section id="colisiones-combate" class="patch-section">
       <div class="section-badge-row">
-        <span class="section-author-badge author-collab">02. Físicas, Puertas &amp; Combate</span>
+        <span class="section-author-badge author-collab">03. Físicas, Puertas &amp; Combate</span>
         <span class="section-discipline-tag">[COLISIONES // NAVMESH // PUERTAS // IA]</span>
       </div>
-      <h2 class="section-title">02. Corrección de Colisiones, Puertas con Llave y Combate IA</h2>
+      <h2 class="section-title">03. Corrección de Colisiones, Puertas con Llave y Combate IA</h2>
 
       <div class="patch-items-stack">
         <article class="patch-card card-danger" data-category="combat">
@@ -189,13 +327,13 @@
       </div>
     </section>
 
-    <!-- 03. ILUMINACIÓN, ATMÓSFERA Y PARTÍCULAS (TEXTO + IMAGEN) -->
+    <!-- 04. ILUMINACIÓN, ATMÓSFERA Y PARTÍCULAS (TEXTO + IMAGEN) -->
     <section id="atmosfera-particulas" class="patch-section">
       <div class="section-badge-row">
-        <span class="section-author-badge author-leo-g">03. Iluminación &amp; Partículas</span>
+        <span class="section-author-badge author-leo-g">04. Iluminación &amp; Partículas</span>
         <span class="section-discipline-tag">[APAGÓN // NIEBLA // 66 PARTICLESYSTEMS]</span>
       </div>
-      <h2 class="section-title">03. Iluminación, Secuencia de Apagón y Sistemas de Partículas</h2>
+      <h2 class="section-title">04. Iluminación, Secuencia de Apagón y Sistemas de Partículas</h2>
 
       <div class="patch-items-stack">
         <article class="patch-card card-amber" data-category="art">
@@ -236,13 +374,13 @@
       </div>
     </section>
 
-    <!-- 04. AVANCE POR NIVELES, JEFE FINAL Y PENDIENTES (TEXTO + IMAGEN) -->
+    <!-- 05. AVANCE POR NIVELES, JEFE FINAL Y PENDIENTES (TEXTO + IMAGEN) -->
     <section id="niveles-jefe" class="patch-section">
       <div class="section-badge-row">
-        <span class="section-author-badge author-collab">04. Niveles &amp; Jefe Final</span>
+        <span class="section-author-badge author-collab">05. Niveles &amp; Jefe Final</span>
         <span class="section-discipline-tag">[PROLOGO &rarr; CASA NIVEL 2 &rarr; NIVEL 3]</span>
       </div>
-      <h2 class="section-title">04. Conexión de los 3 Niveles, Combate Multifase y Pendientes</h2>
+      <h2 class="section-title">05. Conexión de los 3 Niveles, Combate Multifase y Pendientes</h2>
 
       <div class="patch-items-stack">
         <article class="patch-card card-purple" data-category="levels">
