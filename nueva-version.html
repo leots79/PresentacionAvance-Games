@@ -46,10 +46,17 @@
           <li><a href="#colisiones-combate" class="nav-link">03. Físicas &amp; Combate</a></li>
           <li><a href="#atmosfera-particulas" class="nav-link">04. Luz &amp; Partículas</a></li>
           <li><a href="#niveles-jefe" class="nav-link">05. Niveles &amp; Jefe</a></li>
+          <li><a href="#video-animacion" class="nav-link">06. Animación</a></li>
         </ul>
       </nav>
 
       <div class="nav-actions">
+        <a href="#video-animacion" class="btn-nav-primary">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+          Ver Animación
+        </a>
         <a href="index.html" class="btn-nav-secondary">&larr; Avance Base</a>
       </div>
     </div>
@@ -447,6 +454,52 @@
             </div>
           </div>
         </article>
+      </div>
+    </section>
+
+    <!-- 06. VIDEO ANIMACIÓN -->
+    <section id="video-animacion" class="video-section">
+      <div class="section-badge-row">
+        <span class="section-author-badge author-collab">Animación del Proyecto</span>
+        <span class="section-discipline-tag">[CINEMÁTICA // ANIMACIÓN 3D]</span>
+      </div>
+      <h2 class="section-title">06. Animación Promocional / Cinemática</h2>
+      <p class="section-lead">
+        Video de animación conceptual de <strong>No Time to Doubt</strong>, mostrando la atmósfera de terror, la ambientación nocturna y la tensión del encuentro con las entidades.
+      </p>
+
+      <div class="video-container-wrapper">
+        <video id="gameplay-video" class="video-player" controls preload="metadata" poster="assets/portada.jpg">
+          <source src="Video/Animacion.mp4" type="video/mp4">
+          Tu navegador no soporta la reproducción de video HTML5. Puedes visualizar el archivo en <code>Video/Animacion.mp4</code>.
+        </video>
+      </div>
+
+      <div class="video-controls-bar">
+        <div class="video-actions-left">
+          <button id="btn-fullscreen" class="btn-video" type="button" title="Ver en pantalla completa (Tecla F)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+            </svg>
+            Pantalla Completa
+          </button>
+
+          <button id="btn-toggle-play" class="btn-video-alt" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            Reproducir
+          </button>
+
+          <button class="btn-video-alt btn-speed" data-speed="1.0" type="button">1.0x</button>
+          <button class="btn-video-alt btn-speed" data-speed="1.25" type="button">1.25x</button>
+          <button class="btn-video-alt btn-speed" data-speed="1.5" type="button">1.5x</button>
+        </div>
+
+        <div class="video-status-pills">
+          <span class="video-status-tag">VIDEO: Animacion.mp4</span>
+          <span class="video-status-tag">AUDIO ESTÉREO</span>
+        </div>
       </div>
     </section>
   </main>

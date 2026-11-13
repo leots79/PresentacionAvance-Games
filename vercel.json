@@ -3,7 +3,7 @@
   "cleanUrls": true,
   "headers": [
     {
-      "source": "/DocumentosBase/(.*)",
+      "source": "/(DocumentosBase|Video)/(.*)",
       "headers": [
         { "key": "Accept-Ranges", "value": "bytes" }
       ]
